@@ -7,13 +7,13 @@ namespace FoodDeliveryDAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class RecreateTables : IMigrationMetadata
+    public sealed partial class AddTables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RecreateTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddTables));
         
         string IMigrationMetadata.Id
         {
-            get { return "202312251735129_RecreateTables"; }
+            get { return "202312251811303_AddTables"; }
         }
         
         string IMigrationMetadata.Source

@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class RecreateTables : DbMigration
+    public partial class AddTables : DbMigration
     {
         public override void Up()
         {
@@ -45,11 +45,11 @@
                         Quantity = c.Int(nullable: false),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         ImageFileName = c.String(),
-                        Customers_Id = c.Int(),
+                        Customer_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.CartId)
-                .ForeignKey("dbo.Customers", t => t.Customers_Id)
-                .Index(t => t.Customers_Id);
+                .ForeignKey("dbo.Customers", t => t.Customer_Id)
+                .Index(t => t.Customer_Id);
             
             CreateTable(
                 "dbo.Customers",
@@ -86,13 +86,13 @@
         
         public override void Down()
         {
-            DropForeignKey("dbo.Carts", "Customers_Id", "dbo.Customers");
+            DropForeignKey("dbo.Carts", "Customer_Id", "dbo.Customers");
             DropForeignKey("dbo.Customers", "RoleId", "dbo.Roles");
             DropForeignKey("dbo.Admins", "RoleId", "dbo.Roles");
             DropIndex("dbo.Customers", new[] { "RoleId" });
             DropIndex("dbo.Customers", "IX_UniqueEmpUserName");
             DropIndex("dbo.Customers", "IX_UniqueEmpUserEmail");
-            DropIndex("dbo.Carts", new[] { "Customers_Id" });
+            DropIndex("dbo.Carts", new[] { "Customer_Id" });
             DropIndex("dbo.Admins", new[] { "RoleId" });
             DropIndex("dbo.Admins", "IX_UniqueAdminUserName");
             DropIndex("dbo.Admins", "IX_UniqueAdminEmail");

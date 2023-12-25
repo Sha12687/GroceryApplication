@@ -59,6 +59,7 @@ namespace FoodDeliveryApplicationUI.Controllers
                 ImageFileName = cart.ImageFileName,
                 Price = cart.Price,
                 CusomerId = Convert.ToInt32(userId)
+                
             };
             if (ModelState.IsValid)
             {

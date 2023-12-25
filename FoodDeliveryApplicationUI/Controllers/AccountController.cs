@@ -43,7 +43,7 @@ namespace FoodDeliveryApplicationUI.Controllers
         [HttpPost]
         public ActionResult AdminLogin(LoginViewModel loginView)
         {
-            var isAdmin = AuthenticateAdmin(loginView.UserName, loginView.Password);
+            var isAdmin = Authentication.VerifyAdminCredentials(loginView.UserName, loginView.Password);
 
             if (isAdmin)
             {

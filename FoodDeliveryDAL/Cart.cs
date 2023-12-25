@@ -14,7 +14,7 @@ namespace FoodDeliveryDAL
 
         [Required(ErrorMessage = "Employee is required.")]
         public int CusomerId { get; set; }
-        public virtual  Customer  Customers{ get; set; }
+        public virtual  Customer  Customer{ get; set; }
 
         [Required(ErrorMessage = "Product name is required.")]
         [MaxLength(255)]

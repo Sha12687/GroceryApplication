@@ -114,6 +114,14 @@
     <Compile Include="Migrations\202312251811303_AddTables.designer.cs">
       <DependentUpon>202312251811303_AddTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202312252049112_CartTables.cs" />
+    <Compile Include="Migrations\202312252049112_CartTables.designer.cs">
+      <DependentUpon>202312252049112_CartTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312252055106_CartTablesProductId.cs" />
+    <Compile Include="Migrations\202312252055106_CartTablesProductId.designer.cs">
+      <DependentUpon>202312252055106_CartTablesProductId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,6 +135,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202312251811303_AddTables.resx">
       <DependentUpon>202312251811303_AddTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312252049112_CartTables.resx">
+      <DependentUpon>202312252049112_CartTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312252055106_CartTablesProductId.resx">
+      <DependentUpon>202312252055106_CartTablesProductId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

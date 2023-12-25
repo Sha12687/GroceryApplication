@@ -264,6 +264,7 @@
     <Content Include="Views\Shared\_layoutcutomer.cshtml" />
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Customer\ViewCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

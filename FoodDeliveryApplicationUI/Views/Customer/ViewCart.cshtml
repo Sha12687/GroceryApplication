@@ -1,4 +1,4 @@
-﻿\@model IEnumerable<FoodDeliveryApplicationUI.Models.CartViewModel>
+﻿@model IEnumerable<FoodDeliveryApplicationUI.Models.CartViewModel>
 
 @{
     ViewBag.Title = "View Cart";
@@ -32,8 +32,8 @@
                 {
                     <tr>
                         <td><img src="~/Images/@item.ImageFileName" alt="Product Image" style="max-width: 100px; max-height: 100px;" /></td>
-                        <td>@item.ProductName</td>
-                        <td class="quantity-column">
+                        <td  class="align-middle">@item.ProductName</td>
+                        <td class="quantity-column align-middle">
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default font-weight-bold fw-50 text-danger" onclick="updateQuantity(@item.CartId, -1)">-</button>
@@ -44,10 +44,14 @@
                                 </span>
                             </div>
                         </td>
-                        <td class="text-center">@item.Price</td>
-                        <td>@(item.Quantity * item.Price)</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="removeItem(@item.CartId)">Remove</button>
+                        <td class="text-center align-middle align-middle">@item.Price</td>
+                        <td class="align-middle">@(item.Quantity * item.Price)</td>
+                        <td class="align-middle">
+                            <form method="post" action="@Url.Action("RemoveCartItem", "Product")">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="cartId" value="@item.CartId" />
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
                         </td>
                     </tr>
                 }
@@ -93,12 +97,9 @@
                         // Update the total price on the UI
                         var total = calculateTotal();
                         $('#totalPrice').text(total.toFixed(2));
-                    } else {
-                        // Handle the case where the update was not successful
-                        alert(response.message);
-                    }
+                    } 
                 }
-               
+
             });
         }
 

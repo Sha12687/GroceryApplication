@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace FoodDeliveryApplicationUI.Controllers
 {
+    
     public class CustomerController : Controller
     {
         private readonly FoodDbContext _context;

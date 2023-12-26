@@ -38,9 +38,6 @@
                 url: '@Url.Action("AddToCart", "Customer")', // Assuming your action is named AddToCart and is in the CustomerController
                 type: 'POST',
                 data: { productId: productId },
-                success: function (data) {
-                    alert("Product added to cart: " + productId);
-                },
                 error: function () {
                     alert("Error adding product to cart.");
                 }

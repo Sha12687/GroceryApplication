@@ -122,6 +122,10 @@
     <Compile Include="Migrations\202312252055106_CartTablesProductId.designer.cs">
       <DependentUpon>202312252055106_CartTablesProductId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202312260802318_removevalidatiion.cs" />
+    <Compile Include="Migrations\202312260802318_removevalidatiion.designer.cs">
+      <DependentUpon>202312260802318_removevalidatiion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202312252055106_CartTablesProductId.resx">
       <DependentUpon>202312252055106_CartTablesProductId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312260802318_removevalidatiion.resx">
+      <DependentUpon>202312260802318_removevalidatiion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

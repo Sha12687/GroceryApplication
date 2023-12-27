@@ -113,7 +113,9 @@
     <Compile Include="Interface\IAdminRepository.cs" />
     <Compile Include="Interface\ICartRepository.cs" />
     <Compile Include="Interface\ICustomerRepository.cs" />
+    <Compile Include="Interface\IOrderDetailRepository.cs" />
     <Compile Include="Interface\IProductRepository.cs" />
+    <Compile Include="Interface\IOrderRepository.cs" />
     <Compile Include="Migrations\202312251811303_AddTables.cs" />
     <Compile Include="Migrations\202312251811303_AddTables.designer.cs">
       <DependentUpon>202312251811303_AddTables.cs</DependentUpon>
@@ -130,12 +132,36 @@
     <Compile Include="Migrations\202312260802318_removevalidatiion.designer.cs">
       <DependentUpon>202312260802318_removevalidatiion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202312270636487_NewTable.cs" />
+    <Compile Include="Migrations\202312270636487_NewTable.designer.cs">
+      <DependentUpon>202312270636487_NewTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312270726508_AddDateTimeToOrder.cs" />
+    <Compile Include="Migrations\202312270726508_AddDateTimeToOrder.designer.cs">
+      <DependentUpon>202312270726508_AddDateTimeToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312270731318_AddTotalAmountToOrder.cs" />
+    <Compile Include="Migrations\202312270731318_AddTotalAmountToOrder.designer.cs">
+      <DependentUpon>202312270731318_AddTotalAmountToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312271017174_AddProductNmeToOrder.cs" />
+    <Compile Include="Migrations\202312271017174_AddProductNmeToOrder.designer.cs">
+      <DependentUpon>202312271017174_AddProductNmeToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312271023513_alterOrdetails.cs" />
+    <Compile Include="Migrations\202312271023513_alterOrdetails.designer.cs">
+      <DependentUpon>202312271023513_alterOrdetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderDetail.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AdminRepository.cs" />
     <Compile Include="Repository\CartRepository.cs" />
     <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\OrderDetailRepository.cs" />
+    <Compile Include="Repository\OrderRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Service\Authentication.cs" />
@@ -156,6 +182,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202312260802318_removevalidatiion.resx">
       <DependentUpon>202312260802318_removevalidatiion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312270636487_NewTable.resx">
+      <DependentUpon>202312270636487_NewTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312270726508_AddDateTimeToOrder.resx">
+      <DependentUpon>202312270726508_AddDateTimeToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312270731318_AddTotalAmountToOrder.resx">
+      <DependentUpon>202312270731318_AddTotalAmountToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312271017174_AddProductNmeToOrder.resx">
+      <DependentUpon>202312271017174_AddProductNmeToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312271023513_alterOrdetails.resx">
+      <DependentUpon>202312271023513_alterOrdetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

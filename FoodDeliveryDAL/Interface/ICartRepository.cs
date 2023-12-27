@@ -21,6 +21,7 @@ namespace FoodDeliveryDAL.Interface
 
         // Delete
         Cart DeleteCartItem(int cartItemId);
+         IEnumerable<Cart> GetCartItemById(int[] cartIds);
          int cartSaveChanges();
         List<Cart> GetCartItemsByCustomerId(int? customerId);
 

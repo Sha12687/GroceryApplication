@@ -15,6 +15,8 @@ namespace FoodDeliveryApplicationUI
             container.RegisterType<ICustomerRepository, CustomerRepository>();
             container.RegisterType<IAdminRepository, AdminRepository>();
             container.RegisterType<ICartRepository, CartRepository>();
+            container.RegisterType<IOrderRepository, OrderRepository>();
+            container.RegisterType<IOrderDetailRepository, OrderDetailRepository>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

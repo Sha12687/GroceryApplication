@@ -1,0 +1,105 @@
+﻿@*@model FoodDeliveryApplicationUI.Models.OrderViewModel
+
+    @{
+        ViewBag.Title = "Place Order";
+    }
+
+    <div class="container">
+        <h3>Order Summary</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@detail.ProductName</td>
+                        <td>@detail.Quantity</td>
+                        <td>@detail.Price</td>
+                        <td>@detail.Subtotal</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p>Total Amount: @Model.TotalAmount</p>
+
+        <form id="placeOrderForm" method="get" action="@Url.Action("PlaceOrder", "Customer")">
+            @Html.AntiForgeryToken()
+
+            @if (Model.CustId != Convert.ToInt32(null))
+            {
+                <input type="hidden" name="customerId" value="@Model.CustId" />
+            }
+
+            @if (Model.OrderDetails.Any())
+            {
+                for (int i = 0; i < Model.OrderDetails.Count; i++)
+                {
+                    <input type="hidden" name="orderDetails[@i].ProductId" value="@Model.OrderDetails[i].ProductId" />
+                    <input type="hidden" name="orderDetails[@i].Quantity" value="@Model.OrderDetails[i].Quantity" />
+                }
+            }
+
+            <button type="button" id="payNowButton" class="btn btn-success">Pay Now</button>
+        </form>
+
+        <script>
+            // JavaScript to submit the form when the Pay Now button is clicked
+            document.getElementById('payNowButton').addEventListener('click', function () {
+                document.getElementById('placeOrderForm').submit();
+            });
+        </script>
+    </div>*@
+
+
+@model FoodDeliveryApplicationUI.Models.OrderViewModel
+
+@{
+    ViewBag.Title = "Place Order";
+}
+
+<div class="container">
+    <h3>Order Summary</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@detail.ProductName</td>
+                    <td>@detail.Quantity</td>
+                    <td>@detail.Price</td>
+                    <td>@detail.Subtotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Total Amount: @Model.TotalAmount</p>
+
+    <form id="placeOrderForm" method="post" action="@Url.Action("OrderConfirm", "Customer")">
+        @Html.AntiForgeryToken()
+
+        @if (Model.CustId != Convert.ToInt32(null))
+        {
+            <input type="hidden" name="customerId" value="@Model.CustId" />
+        }
+        <button type="submit" id="payNowButton" class="btn btn-success">Pay Now</button>
+    </form>
+
+    
+</div>

@@ -1,6 +1,7 @@
 ﻿using FoodDeliveryApplicationUI.Models;
 using FoodDeliveryDAL;
 using FoodDeliveryDAL.Data;
+using FoodDeliveryDAL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,22 @@ namespace FoodDeliveryApplicationUI.Controllers
     
     public class CustomerController : Controller
     {
-        private readonly FoodDbContext _context;
-        public CustomerController()
+      //  private readonly FoodDbContext _context;
+        private readonly ICustomerRepository customerRepository;
+        private readonly IProductRepository productRepository;
+        private readonly ICartRepository cartRepository;
+
+        public CustomerController(ICustomerRepository customerRepository ,IProductRepository productRepository,ICartRepository cartRepository)
         {
-            _context = new FoodDbContext();
+         //   _context = new FoodDbContext();
+            this.customerRepository = customerRepository;
+            this.productRepository = productRepository;
+            this.cartRepository = cartRepository;
         }
         // GET: Customer
         public ActionResult Index()
         {
-            var products = _context.Products.ToList();
+            var products = productRepository.GetAllProducts();
             var productViewModels = products.Select(MapToViewModel).ToList();
             return View(productViewModels);
         }
@@ -45,7 +53,7 @@ namespace FoodDeliveryApplicationUI.Controllers
                 return RedirectToAction("Index", "Customer");
             }
 
-            var cart = _context.Products.Find(productId);
+            var cart = productRepository.GetProductById(productId);
 
             if (cart == null)
             {
@@ -65,8 +73,8 @@ namespace FoodDeliveryApplicationUI.Controllers
             if (ModelState.IsValid)
             {
                 // Add the item to the database or perform other business logic
-                _context.Carts.Add(addTocart);
-                _context.SaveChanges();
+                cartRepository.CreateCartItem(addTocart);
+               
                 return RedirectToAction("Index", "Customer");
             }
             return RedirectToAction("Index", "Customer");
@@ -79,19 +87,19 @@ namespace FoodDeliveryApplicationUI.Controllers
                 ModelState.AddModelError("errorMessage", "User session not found. Please log in.");
                 return RedirectToAction("Index", "Customer");
             }
-
-            var existingCartItem = _context.Carts
-                .FirstOrDefault(c => c.ProductId == productId && c.CusomerId == userId);
+            int temp=Convert.ToInt32(userId);   
+            var existingCartItem = customerRepository.GetCartItemByProductIdAndCustomerId( productId , temp);
 
             if (existingCartItem != null)
             {
                 // Product already exists in the cart, so update the quantity
                 existingCartItem.Quantity++;
+                cartRepository.cartSaveChanges();
             }
             else
             {
                 // Product is not in the cart, so add a new item
-                var cart = _context.Products.Find(productId);
+                var cart = productRepository.GetProductById(productId);
 
                 if (cart == null)
                 {
@@ -109,10 +117,11 @@ namespace FoodDeliveryApplicationUI.Controllers
                     ProductId = productId  // Add the ProductId property to your Cart model to store the product ID
                 };
 
-                _context.Carts.Add(addTocart);
+                cartRepository.CreateCartItem(addTocart);
+              
             }
 
-            _context.SaveChanges();
+          
             return RedirectToAction("Index", "Customer");
         }
 
@@ -126,10 +135,10 @@ namespace FoodDeliveryApplicationUI.Controllers
             }
             var loggedInUserId = (int?)Session["UserId"];
             // Retrieve cart items for the specified customer
-            var cartItems = _context.Carts.Where(c => c.CusomerId == customerId).ToList();
-
-            // Create a list of CartViewModel to pass to the view
-            var carViewList = cartItems.Select(item => new CartViewModel
+          
+            var cartItems = cartRepository.GetCartItemsByCustomerId(customerId);
+                // Create a list of CartViewModel to pass to the view
+                var carViewList = cartItems.Select(item => new CartViewModel
             {
                 CartId = item.CartId,
                 ImageFileName = item.ImageFileName,
@@ -144,13 +153,13 @@ namespace FoodDeliveryApplicationUI.Controllers
         [HttpPost]
         public ActionResult UpdateCartQuantity(int cartId, int newQuantity)
         {
-            var cartItem = _context.Carts.Find(cartId);
+            var cartItem = cartRepository.GetCartItemById(cartId);
             if (cartItem != null)
             {
                 // Update the quantity
                 cartItem.Quantity =newQuantity;
 
-                _context.SaveChanges();
+                cartRepository.cartSaveChanges();
             }
           return View();
         }

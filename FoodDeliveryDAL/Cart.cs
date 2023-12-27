@@ -13,7 +13,7 @@ namespace FoodDeliveryDAL
         [Key] 
         public int CartId { get; set; }
 
-        [Required(ErrorMessage = "Employee is required.")]
+        [Required(ErrorMessage = "Customer is required.")]
         public int CusomerId { get; set; }
         public virtual  Customer  Customer{ get; set; }
 

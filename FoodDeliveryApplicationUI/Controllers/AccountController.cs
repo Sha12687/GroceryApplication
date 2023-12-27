@@ -1,6 +1,7 @@
 ﻿using FoodDeliveryApplicationUI.Models;
 using FoodDeliveryDAL;
 using FoodDeliveryDAL.Data;
+using FoodDeliveryDAL.Interface;
 using FoodDeliveryDAL.Service;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -14,11 +15,14 @@ namespace FoodDeliveryApplicationUI.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly FoodDbContext context;
+      
+        private readonly IAdminRepository adminRepository;
+        private readonly ICustomerRepository customerRepository;
 
-        public AccountController()
+        public AccountController(IAdminRepository adminRepository,ICustomerRepository customerRepository)
         {
-            this.context = new FoodDbContext();
+            this.adminRepository = adminRepository;
+            this.customerRepository = customerRepository;
         }
         // GET: Account
         public ActionResult CustomerLogin()
@@ -57,14 +61,6 @@ namespace FoodDeliveryApplicationUI.Controllers
                 return View(loginView);
             }
         }
-        private bool AuthenticateAdmin(string username, string password)
-        {
-
-            var admin = context.Admins.SingleOrDefault(a => a.UserName == username && a.Password == password);
-
-            // Return true if an admin is found, otherwise false.
-            return admin != null;
-        }
         [HttpPost]
         public ActionResult CustomerLogin(LoginViewModel loginView)
         {
@@ -72,7 +68,7 @@ namespace FoodDeliveryApplicationUI.Controllers
 
             if (isAdmin)
             {
-           var user = context.Customers.FirstOrDefault(x => x.UserName == loginView.UserName);
+           var user = customerRepository.GetCustomerByUserName( loginView.UserName);
                 Session["UserId"] = user.Id;
                 Session["UserName"] = user.UserName;
                 FormsAuthentication.SetAuthCookie(loginView.UserName, false);
@@ -89,13 +85,13 @@ namespace FoodDeliveryApplicationUI.Controllers
         [HttpPost]
         public ActionResult Registration(UserView user)
         {
-            if (context.Admins.Any(a => a.Email == user.Email) || context.Customers.Any(e => e.Email == user.Email))
+            if (adminRepository.AdminExistsEmail( user.Email) || customerRepository.CustomerExistsEmail( user.Email))
             {
                 // Email already registered
                 ModelState.AddModelError("Email", "Email already registered with us.");
                 return View("Registration", user);
             }
-            else if (context.Admins.Any(a => a.UserName == user.UserName) || context.Customers.Any(e => e.UserName == user.UserName))
+            else if (adminRepository.AdminExists(user.UserName) || customerRepository.CustomerExists( user.UserName))
             {
                 // Username already registered
                 ModelState.AddModelError("UserName", "Username already registered with us.");
@@ -104,7 +100,7 @@ namespace FoodDeliveryApplicationUI.Controllers
             }
             if (user.UserType == 2)
             {
-                Customer employee = new Customer
+                Customer customer = new Customer
                 {
                     Email = user.Email,
                     UserName = user.UserName,
@@ -114,9 +110,9 @@ namespace FoodDeliveryApplicationUI.Controllers
                     RoleId = user.UserType
                 };
                 var passwordHash = new PasswordHasher<Customer>();
-                employee.Password = passwordHash.HashPassword(employee, user.Password);
-                context.Customers.Add(employee);
-                context.SaveChanges();
+                customer.Password = passwordHash.HashPassword(customer, user.Password);
+                customerRepository.CreateCustomer(customer);
+             
 
                 return RedirectToAction("Index", "Customer");
             }
@@ -133,8 +129,8 @@ namespace FoodDeliveryApplicationUI.Controllers
                 };
                 var passwordHash = new PasswordHasher<Admin>();
                 newadmin.Password = passwordHash.HashPassword(newadmin, user.Password);
-                context.Admins.Add(newadmin);
-                context.SaveChanges();
+                adminRepository.CreateAdmin(newadmin);
+            
                 return RedirectToAction("Index", "Admin");
             }
         }

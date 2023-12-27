@@ -1,6 +1,7 @@
 ﻿using FoodDeliveryApplicationUI.Models;
 using FoodDeliveryDAL;
 using FoodDeliveryDAL.Data;
+using FoodDeliveryDAL.Interface;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,19 @@ namespace FoodDeliveryApplicationUI.Controllers
     public class ProductController : Controller
     {
        
-        private readonly FoodDbContext  _context;
-        public ProductController()
+     //   private readonly FoodDbContext  _context;
+        private readonly IProductRepository productRepository;
+        private readonly ICartRepository cartRepository;
+
+        public ProductController(IProductRepository productRepository,ICartRepository cartRepository)
         {
-            _context = new FoodDbContext();   
+          
+            this.productRepository = productRepository;
+            this.cartRepository = cartRepository;
         }
         public ActionResult Index()
         {
-            var products = _context.Products.ToList();
+            var products = productRepository.GetAllProducts();
             var productViewModels = products.Select(MapToViewModel).ToList();
             return View(productViewModels);
         }
@@ -60,8 +66,8 @@ namespace FoodDeliveryApplicationUI.Controllers
                 };
 
                 // Add the product to the database
-                _context.Products.Add(newProduct);
-                _context.SaveChanges();
+                productRepository.CreateProduct(newProduct);
+             
 
                 return RedirectToAction("Index"); // Redirect to the product list page
             }
@@ -85,7 +91,7 @@ namespace FoodDeliveryApplicationUI.Controllers
         // Controllers/ProductsController.cs
         public ActionResult Edit(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = productRepository.GetProductById(id);
             if (product == null)
             {
                 ModelState.AddModelError(string.Empty, "Product not found.");
@@ -111,7 +117,7 @@ namespace FoodDeliveryApplicationUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = _context.Products.Find(viewModel.ProductId);
+                var product = productRepository.GetProductById(viewModel.ProductId);
                 if (product == null)
                 {
                     ModelState.AddModelError(string.Empty, "Product not found.");
@@ -122,7 +128,6 @@ namespace FoodDeliveryApplicationUI.Controllers
                 product.Description = viewModel.Description;
                 product.Price = viewModel.Price;
 
-                // Update image in the application folder
                 if (viewModel.ImageFile != null && viewModel.ImageFile.ContentLength > 0)
                 {
                     string imagePath = Path.Combine(Server.MapPath("~/Images"), product.ImageFileName);
@@ -138,13 +143,12 @@ namespace FoodDeliveryApplicationUI.Controllers
                     string newImagePath = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
                     viewModel.ImageFile.SaveAs(newImagePath);
 
-                    // Update image filename in the database
                     product.ImageFileName = uniqueFileName;
                 }
 
                 try
                 {
-                    _context.SaveChanges();
+                    productRepository.SaveProductChanges();
                     return RedirectToAction("Index");
                 }
                 catch (Exception )
@@ -155,14 +159,13 @@ namespace FoodDeliveryApplicationUI.Controllers
                 }
             }
 
-            // If ModelState is not valid, return to the view with validation errors
             return View(viewModel);
         }
 
 
         public ActionResult Delete(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = productRepository.GetProductById(id);
             if (product == null)
             {
                 ModelState.AddModelError(string.Empty, "Product not found.");
@@ -182,14 +185,12 @@ namespace FoodDeliveryApplicationUI.Controllers
         }
         // Controllers/ProductController.cs
 
-        // Controllers/ProductController.cs
-
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = productRepository.GetProductById(id);
             if (product == null)
             {
                 ModelState.AddModelError(string.Empty, "Product not found.");
@@ -201,8 +202,8 @@ namespace FoodDeliveryApplicationUI.Controllers
             DeleteImage(product.ImageFileName);
 
             // Remove product from the database
-            _context.Products.Remove(product);
-            _context.SaveChanges();
+           productRepository.DeleteProduct(product.ProductId);
+           
 
             TempData["SuccessMessage"] = "Product deleted successfully.";
             return RedirectToAction("Index");
@@ -236,7 +237,7 @@ namespace FoodDeliveryApplicationUI.Controllers
             int userId = Convert.ToInt32(Session["UserId"]);
 
             // Find the cart item for the specified cartId and userId
-            var cartItem = _context.Carts.FirstOrDefault(c => c.CartId == cartId && c.CusomerId == userId);
+            var cartItem = cartRepository.GetCartItemByCartIdAndCustomerId(cartId ,userId);
 
             if (cartItem == null)
             {
@@ -245,21 +246,12 @@ namespace FoodDeliveryApplicationUI.Controllers
             }
 
             // Remove the cart item
-            _context.Carts.Remove(cartItem);
+            cartRepository.DeleteCartItem(cartItem.CartId);
 
             // Save changes and check for errors
-            _context.SaveChanges();
+           
 
-            if (_context.ChangeTracker.HasChanges())
-            {
-                TempData["SuccessMessage"] = "Product removed from the cart successfully.";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "An error occurred while saving changes.";
-            }
-
-            return RedirectToAction("ViewCart","Customer");
+            return RedirectToAction("ViewCart", "Customer", new { customerId = userId });
         }
 
     }

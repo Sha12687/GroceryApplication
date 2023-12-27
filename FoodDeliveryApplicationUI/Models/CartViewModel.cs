@@ -10,7 +10,7 @@ namespace FoodDeliveryApplicationUI.Models
     {
         public int CartId { get; set; }
 
-        [Required(ErrorMessage = "Employee is required.")]
+        [Required(ErrorMessage = "Customer is required.")]
         public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "Product name is required.")]

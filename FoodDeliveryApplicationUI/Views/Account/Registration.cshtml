@@ -74,7 +74,7 @@
                     if (User.IsInRole("Admin"))
                     {
                         <label class="radio-inline">
-                            @Html.RadioButtonFor(model => model.UserType, 2) Employee
+                            @Html.RadioButtonFor(model => model.UserType, 2) Customer
                         </label>
                         <label class="radio-inline">
                             @Html.RadioButtonFor(model => model.UserType, 1) Admin
@@ -85,7 +85,7 @@
                 else
                 {
                     <label class="radio-inline">
-                        @Html.RadioButtonFor(model => model.UserType, 2, new { @checked = true }) Employee
+                        @Html.RadioButtonFor(model => model.UserType, 2, new { @checked = true }) Customer
                     </label>
                     @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
                 }

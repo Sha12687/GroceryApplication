@@ -2,6 +2,7 @@
 using FoodDeliveryDAL;
 using FoodDeliveryDAL.Data;
 using FoodDeliveryDAL.Interface;
+using FoodDeliveryDAL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,17 @@ namespace FoodDeliveryApplicationUI.Controllers
         private readonly ICustomerRepository customerRepository;
         private readonly IProductRepository productRepository;
         private readonly ICartRepository cartRepository;
+        private readonly IOrderRepository orderRepository;
+        private readonly IOrderDetailRepository orderDetailRepository;
 
-        public CustomerController(ICustomerRepository customerRepository ,IProductRepository productRepository,ICartRepository cartRepository)
+        public CustomerController(ICustomerRepository customerRepository ,IProductRepository productRepository,ICartRepository cartRepository, IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
         {
          //   _context = new FoodDbContext();
             this.customerRepository = customerRepository;
             this.productRepository = productRepository;
             this.cartRepository = cartRepository;
+            this.orderRepository = orderRepository;
+            this.orderDetailRepository = orderDetailRepository;
         }
         // GET: Customer
         public ActionResult Index()
@@ -162,6 +167,96 @@ namespace FoodDeliveryApplicationUI.Controllers
                 cartRepository.cartSaveChanges();
             }
           return View();
+        }
+
+        public ActionResult PlaceOrder(int[] cartIds, int? customerId)
+        {
+
+            if (customerId == null)
+            {
+                var existingOrder = Session["OrderViewModel"] as OrderViewModel;
+                    return View(existingOrder);
+            }
+            else
+            {
+                int custId=Convert.ToInt32(customerId);
+                var cartItems = cartRepository.GetCartItemById(cartIds);
+                var customer = customerRepository.GetCustomerById(custId);
+
+                var order = new OrderViewModel
+                {
+                    name = customer.UserName,
+                    CustId = customer.Id,
+                    UserName = customer.UserName,
+                    OrderDate = DateTime.Now,
+                    OrderDetails = cartItems.Select(item => new OrderDetailsViewModel
+                    {
+                        ProductName = item.ProductName,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        Subtotal = item.Quantity * item.Price,
+                        ProductId = item.ProductId,
+                    }).ToList()
+                };
+                decimal total = cartItems.Sum(item => item.Quantity * item.Price);
+                order.TotalAmount = total;
+                Session["OrderViewModel"] = order;
+
+                // Other logic (e.g., payment processing) can be added here
+
+                return View(order);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult OrderConfirm(int customerId)
+        {
+            // Retrieve cart items
+            var cartItems = cartRepository.GetCartItemsByCustomerId(customerId);
+            var customer = customerRepository.GetCustomerById(customerId);
+
+            // Create an order
+            var order = new Order
+            {
+                OrderDate = DateTime.Now,
+                CustomerId = customer.Id,
+                
+                TotalAmount = cartItems.Sum(item => item.Quantity * item.Price),
+                OrderDetails = cartItems.Select(item => new OrderDetail
+                {
+                    ProductName = item.ProductName,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                }).ToList()
+            };
+
+            // Save the order
+            orderRepository.CreateOrder(order);
+
+            // Remove cart items
+            foreach (var cartItem in cartItems)
+            {
+                cartRepository.DeleteCartItem(cartItem.CartId);
+            }
+
+            return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
+        }
+
+        public ActionResult OrderConfirmation(int orderId)
+        {
+            // Retrieve the order for confirmation
+            var order = orderRepository.GetOrderById(orderId);
+            var message = new OrderViewModel
+            {
+                OrderId= order.OrderId,
+                TotalAmount= order.TotalAmount,
+            };
+            return View(message);
+        }
+
+        public ActionResult OrderPlacedSuccessfully()
+        {
+            return View();
         }
     }
 }

@@ -1,0 +1,11 @@
+﻿@model FoodDeliveryApplicationUI.Models.OrderViewModel
+
+@{
+    ViewBag.Title = "Order Confirmation";
+}
+
+<div class="container">
+    <h3>Order Confirmation</h3>
+    <p>Your order with Order ID @Model.OrderId has been successfully placed.</p>
+    <p>Total Amount: @Model.TotalAmount</p>
+</div>

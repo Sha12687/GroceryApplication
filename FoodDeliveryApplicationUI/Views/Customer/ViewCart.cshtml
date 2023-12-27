@@ -32,7 +32,7 @@
                 {
                     <tr>
                         <td><img src="~/Images/@item.ImageFileName" alt="Product Image" style="max-width: 100px; max-height: 100px;" /></td>
-                        <td  class="align-middle">@item.ProductName</td>
+                        <td class="align-middle">@item.ProductName</td>
                         <td class="quantity-column align-middle">
                             <div class="input-group">
                                 <span class="input-group-btn">
@@ -60,7 +60,21 @@
 
         <p>Total: $@(Model.Sum(item => item.Quantity * item.Price))</p>
 
-        <button class="btn btn-success" onclick="placeOrder()">Place Order</button>
+
+        <form method="post" action="@Url.Action("PlaceOrder", "Customer")">
+            @Html.AntiForgeryToken()
+
+            @foreach (var item in Model)
+            {
+                <input type="hidden" name="cartIds[]" value="@item.CartId" />
+            }
+
+            <input type="hidden" name="customerId" value="@Session["UserId"]" />
+
+            <button type="submit" class="btn btn-danger">Place Order</button>
+        </form>
+
+
     }
     else
     {

@@ -51,7 +51,10 @@ namespace FoodDeliveryDAL.Repository
         {
             return _context.Carts.Find(cartItemId);
         }
-
+        public IEnumerable<Cart> GetCartItemById(int[] cartIds)
+        {
+            return _context.Carts.Where(c => cartIds.Contains(c.CartId)).ToList();
+        }
         public IEnumerable<Cart> GetAllCartItems()
         {
             return _context.Carts.ToList();

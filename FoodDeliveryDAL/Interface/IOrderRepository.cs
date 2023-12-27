@@ -13,6 +13,7 @@ namespace FoodDeliveryDAL.Interface
         IEnumerable<Order> GetAllOrders();
         void UpdateOrder(Order order);
         void DeleteOrder(Order order);
+        IEnumerable<Order> GetOrdersByCustomerId(int userId);
     }
 
 

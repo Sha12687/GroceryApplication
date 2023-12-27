@@ -13,6 +13,7 @@ namespace FoodDeliveryDAL
         public int OrderId { get; set; }
         public string ProductName { get; set; }
         public virtual Order Order { get; set; }
+        public decimal price { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid quantity")]
         public int Quantity { get; set; }
     }

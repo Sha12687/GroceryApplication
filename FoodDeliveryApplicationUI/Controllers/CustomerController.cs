@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace FoodDeliveryApplicationUI.Controllers
 {
-    
+    [Authorize(Roles = "Customer")]
     public class CustomerController : Controller
     {
       //  private readonly FoodDbContext _context;
@@ -155,6 +155,8 @@ namespace FoodDeliveryApplicationUI.Controllers
 
             return View(carViewList);
         }
+
+
         [HttpPost]
         public ActionResult UpdateCartQuantity(int cartId, int newQuantity)
         {
@@ -219,13 +221,12 @@ namespace FoodDeliveryApplicationUI.Controllers
             var order = new Order
             {
                 OrderDate = DateTime.Now,
-                CustomerId = customer.Id,
-                
+                CustomerId = customer.Id,         
                 TotalAmount = cartItems.Sum(item => item.Quantity * item.Price),
                 OrderDetails = cartItems.Select(item => new OrderDetail
                 {
                     ProductName = item.ProductName,
-                    ProductId = item.ProductId,
+                    price = item.Price,
                     Quantity = item.Quantity
                 }).ToList()
             };
@@ -257,6 +258,25 @@ namespace FoodDeliveryApplicationUI.Controllers
         public ActionResult OrderPlacedSuccessfully()
         {
             return View();
+        }
+
+        public ActionResult ViewOrderedProducts()
+        {
+
+            int userId = (int)Session["UserId"];
+            var orders = orderRepository.GetOrdersByCustomerId(userId);
+            var productViewModels = orders
+           .SelectMany(od => od.OrderDetails.Select(detail => new OrderDetailsViewModel
+           {
+               ProductId = detail.OrderId,
+               ProductName = detail.ProductName,
+               Quantity = detail.Quantity,
+               Price = detail.price
+           }))
+           .ToList();
+
+
+            return View(productViewModels);
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace FoodDeliveryApplicationUI.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class ProductController : Controller
     {
        
@@ -124,11 +125,11 @@ namespace FoodDeliveryApplicationUI.Controllers
                     return View(viewModel);
                 }
 
-                product.Name = viewModel.Name;
-                product.Description = viewModel.Description;
-                product.Price = viewModel.Price;
+             product.Name = viewModel.Name;
+             product.Description = viewModel.Description;
+             product.Price = viewModel.Price;
 
-                if (viewModel.ImageFile != null && viewModel.ImageFile.ContentLength > 0)
+          if (viewModel.ImageFile != null && viewModel.ImageFile.ContentLength > 0)
                 {
                     string imagePath = Path.Combine(Server.MapPath("~/Images"), product.ImageFileName);
 
@@ -139,7 +140,7 @@ namespace FoodDeliveryApplicationUI.Controllers
                     }
 
                     // Save new image
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(viewModel.ImageFile.FileName);
+        string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(viewModel.ImageFile.FileName);
                     string newImagePath = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
                     viewModel.ImageFile.SaveAs(newImagePath);
 
@@ -153,8 +154,6 @@ namespace FoodDeliveryApplicationUI.Controllers
                 }
                 catch (Exception )
                 {
-                    
-
                     ModelState.AddModelError(string.Empty, "An error occurred while processing your request. Please try again later.");
                 }
             }

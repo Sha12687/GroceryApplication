@@ -1,0 +1,32 @@
+﻿@model List<FoodDeliveryApplicationUI.Models.OrderDetailsViewModel>
+
+@{
+    ViewBag.Title = "View Ordered Products";
+}
+
+<h2>Ordered Products List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Price</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductId</td>
+                <td>@product.ProductName</td>
+                <td>@product.Quantity</td>
+                <td>@product.Price</td>
+                <td>@(product.Quantity * product.Price)</td>
+                <td class="text-success">Success</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,6 +45,16 @@ namespace FoodDeliveryDAL.Repository
         {
             _context.Orders.Remove(order);
             _context.SaveChanges();
+        }
+
+        public IEnumerable<Order> GetOrdersByCustomerId(int userId)
+        {
+            IEnumerable<Order> orders = _context.Orders
+           .Include(o => o.OrderDetails)
+           .Where(o => o.CustomerId == userId)
+           .ToList();
+
+            return orders;
         }
     }
 }

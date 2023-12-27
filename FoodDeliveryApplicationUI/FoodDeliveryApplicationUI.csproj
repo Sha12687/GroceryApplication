@@ -281,6 +281,7 @@
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Customer\OrderConfirmation.cshtml" />
     <Content Include="Views\Customer\PlaceOrder.cshtml" />
+    <Content Include="Views\Customer\ViewOrderedProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

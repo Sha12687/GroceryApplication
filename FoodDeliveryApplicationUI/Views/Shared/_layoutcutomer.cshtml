@@ -73,7 +73,7 @@
                 }
 
             </li>
-
+            <li>@Html.ActionLink("View Orders", "ViewOrderedProducts", "Customer")</li>
 
 
         </ul>
@@ -82,12 +82,22 @@
 
     <div class="main-content">
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            @Html.ActionLink("E-Pay Roll", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Food Delivery", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Account", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                     <li class="nav-item nav-link disabled text-light">
+                   Welcome, @User.Identity.Name!
+                     </li>
+                 <li>@Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Log in", "Login", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
                 </ul>
             </div>
         </nav>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FoodDeliveryApplicationUI.Models;
+using FoodDeliveryDAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +27,23 @@ namespace FoodDeliveryApplicationUI.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+
+        private CustomerModel MapToViewModel(Customer customer)
+        {
+            return new CustomerModel
+            {
+                Id = customer.Id,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
+                UserName = customer.UserName,
+                Password = customer.Password,
+                ConfirmPassword = customer.Password  // Assuming you store hashed passwords
+                                                     // Add other properties as needed
+            };
         }
     }
 }

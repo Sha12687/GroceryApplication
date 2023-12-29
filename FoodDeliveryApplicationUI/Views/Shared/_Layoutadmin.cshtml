@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    var userId = (int?)Session["UserId"];
+}
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -57,7 +63,8 @@
         <ul>
             <li>@Html.ActionLink("Product List  ", "Index", "Product")</li>
             <li>@Html.ActionLink("Product Add ", "AddProduct", "Product")</li>
-            <li>@Html.ActionLink("Customer List", "*", "*")</li>
+            <li>@Html.ActionLink("Customer List", "ViewCustomers", "Admin")</li>
+            <li>@Html.ActionLink("View Profile", "ViewProfile", "Admin", new { AdminId = userId }, null)</li>
         </ul>
     </div>
 
@@ -68,9 +75,22 @@
 
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
+
                     <li>@Html.ActionLink("Home", "Index", "Account", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Registration", "Registration", "Account", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Registration", "Registration", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item nav-link disabled text-light ml-auto me-5">
+                            Welcome, @User.Identity.Name!
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("Log in", "Login", "Account", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>

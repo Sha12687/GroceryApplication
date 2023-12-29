@@ -212,6 +212,7 @@
     <Compile Include="Models\OrderDetailsViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\UserView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebRoleProvider.cs" />
@@ -282,6 +283,14 @@
     <Content Include="Views\Customer\OrderConfirmation.cshtml" />
     <Content Include="Views\Customer\PlaceOrder.cshtml" />
     <Content Include="Views\Customer\ViewOrderedProducts.cshtml" />
+    <Content Include="Views\Admin\ViewCustomers.cshtml" />
+    <Content Include="Views\Admin\ViewOrderedProducts.cshtml" />
+    <Content Include="Views\Admin\ViewCustomerDetails.cshtml" />
+    <Content Include="Views\Customer\ViewProfile.cshtml" />
+    <Content Include="Views\Customer\EditCustomer.cshtml" />
+    <Content Include="Views\Admin\ViewProfile.cshtml" />
+    <Content Include="Views\Admin\EditAdmin.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

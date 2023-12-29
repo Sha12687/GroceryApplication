@@ -79,5 +79,15 @@ namespace FoodDeliveryDAL.Repository
 
             return admin;
         }
+
+        public Admin GetAdminByUserName(string userName)
+        {
+            return _context.Admins.FirstOrDefault(x => x.UserName == userName);
+        }
+
+        public void SaveAdminchages()
+        {
+            _context.SaveChanges();
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace FoodDeliveryDAL.Interface
 
         // Delete
         Admin DeleteAdmin(int adminId);
+        Admin GetAdminByUserName(string userName);
+        void SaveAdminchages();
     }
 
 }

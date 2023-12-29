@@ -10,7 +10,7 @@ namespace FoodDeliveryDAL.Interface
     {
         // Create
 
-
+         int customerSAveChanges();
         Cart GetCartItemByProductIdAndCustomerId(int productId, int customerId);
         Customer GetCustomerByUserName(string userName);
         Customer CreateCustomer(Customer customer);
@@ -24,6 +24,7 @@ namespace FoodDeliveryDAL.Interface
 
         // Delete
         Customer DeleteCustomer(int customerId);
+       
     }
 
 }

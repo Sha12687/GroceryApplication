@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -24,11 +25,15 @@ namespace FoodDeliveryApplicationUI.Controllers
             this.adminRepository = adminRepository;
             this.customerRepository = customerRepository;
         }
+
+        [HttpGet]
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
         // GET: Account
         public ActionResult CustomerLogin()
         {
-
-
             return View();
         }
 
@@ -51,6 +56,9 @@ namespace FoodDeliveryApplicationUI.Controllers
 
             if (isAdmin)
             {
+                var user = adminRepository.GetAdminByUserName(loginView.UserName);
+                Session["UserId"] = user.Id;
+                Session["UserName"] = user.UserName;
                 FormsAuthentication.SetAuthCookie(loginView.UserName, false);
                 return RedirectToAction("Index", "Admin");
             }
@@ -133,6 +141,31 @@ namespace FoodDeliveryApplicationUI.Controllers
             
                 return RedirectToAction("Index", "Admin");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+               var user = customerRepository.GetCustomerByUserName(model.UserName);
+
+                    if (user == null)
+                    {
+                        ModelState.AddModelError(nameof(model.UserName), "Invalid username. Please enter a valid username.");
+                        return View(model);
+                    }
+                    else
+                    {
+                        var passwordHash = new PasswordHasher<Customer>();
+                        user.Password = passwordHash.HashPassword(user, model.Password);
+                        customerRepository.customerSAveChanges();
+                    }
+                    TempData["SuccessMessage"] = "Password reset successfully. Please log in with your new password.";
+                    return RedirectToAction("CustomerLogin", "Account");
+            }
+            return View(model);
         }
         public ActionResult Logout()
         {

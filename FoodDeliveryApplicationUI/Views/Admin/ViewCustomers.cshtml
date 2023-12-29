@@ -1,0 +1,34 @@
+﻿@model List<FoodDeliveryApplicationUI.Models.CustomerModel>
+
+@{
+    ViewBag.Title = "Customer List";
+}
+
+<h2>Customer List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center">Customer Name</th>
+            <th class="text-center">Action</th>
+            <!-- Add other columns as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td class="text-center">@customer.FirstName @customer.LastName </td>
+                <td class="text-center">
+                    <ul class="list-inline">
+                        <li class="list-inline-item btn-outline-success text-center"><a href="@Url.Action("ViewOrderedProducts", "Admin", new { customerId = customer.Id })" class="btn btn-success">View Order</a></li>
+                        <li class="list-inline-item text-center  btn-outline-info"><a href="@Url.Action("ViewCustomerDetails", "Admin", new { customerId = customer.Id })" class="btn btn-primary">View Profile</a></li>
+                    </ul>
+
+
+                </td>
+                <!-- Add other columns as needed -->
+            </tr>
+        }
+    </tbody>
+</table>

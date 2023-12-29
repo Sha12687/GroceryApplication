@@ -30,7 +30,6 @@ namespace FoodDeliveryApplicationUI.Models
 
         [Required(ErrorMessage = "Username is required.")]
         [MaxLength(255)]
-        [Index("IX_UniqueEmpUserName", IsUnique = true)]
         [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Only letters, numbers, and underscores are allowed.")]
         public string UserName { get; set; }
 

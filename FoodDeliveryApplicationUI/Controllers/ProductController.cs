@@ -63,7 +63,8 @@ namespace FoodDeliveryApplicationUI.Controllers
                     Name = model.Name,
                     Description = model.Description,
                     Price = model.Price,
-                    ImageFileName = model.ImageFileName
+                    ImageFileName = model.ImageFileName,
+                    ProductQuantity = model.ProductQuantity,
                 };
 
                 // Add the product to the database
@@ -84,7 +85,8 @@ namespace FoodDeliveryApplicationUI.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ImageFileName = product.ImageFileName
+                ImageFileName = product.ImageFileName,
+                ProductQuantity= product.ProductQuantity,
                 // Add other properties as needed
             };
         }
@@ -105,7 +107,8 @@ namespace FoodDeliveryApplicationUI.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ImageFileName = product.ImageFileName
+                ImageFileName = product.ImageFileName,
+                ProductQuantity= product.ProductQuantity,
             };
 
             return View(viewModel);
@@ -128,6 +131,7 @@ namespace FoodDeliveryApplicationUI.Controllers
              product.Name = viewModel.Name;
              product.Description = viewModel.Description;
              product.Price = viewModel.Price;
+             product.ProductQuantity = viewModel.ProductQuantity;
 
           if (viewModel.ImageFile != null && viewModel.ImageFile.ContentLength > 0)
                 {
@@ -177,7 +181,8 @@ namespace FoodDeliveryApplicationUI.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ImageFileName = product.ImageFileName
+                ImageFileName = product.ImageFileName,
+                ProductQuantity = product.ProductQuantity,
             };
 
             return View(viewModel);

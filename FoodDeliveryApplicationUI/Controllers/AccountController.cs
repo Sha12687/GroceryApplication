@@ -31,9 +31,16 @@ namespace FoodDeliveryApplicationUI.Controllers
         {
             return View();
         }
+
+
+        public ActionResult AdminResetPassword()
+        {
+            return View();
+        }
         // GET: Account
         public ActionResult CustomerLogin()
         {
+          
             return View();
         }
 
@@ -149,7 +156,7 @@ namespace FoodDeliveryApplicationUI.Controllers
         {
             if (ModelState.IsValid)
             {
-               var user = customerRepository.GetCustomerByUserName(model.UserName);
+               var user = customerRepository.GetCustomerByUserNamePhone(model.UserName,model.PhoneNumber);
 
                     if (user == null)
                     {
@@ -167,11 +174,36 @@ namespace FoodDeliveryApplicationUI.Controllers
             }
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AdminResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = adminRepository.GetAdminByUserNamePhone(model.UserName, model.PhoneNumber);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError(nameof(model.UserName), "Invalid username. Please enter a valid username.");
+                    return View(model);
+                }
+                else
+                {
+                    var passwordHash = new PasswordHasher<Admin>();
+                    user.Password = passwordHash.HashPassword(user, model.Password);
+                    adminRepository.SaveAdminchages();
+                }
+                TempData["SuccessMessage"] = "Password reset successfully. Please log in with your new password.";
+                return RedirectToAction("CustomerLogin", "Account");
+            }
+            return View(model);
+        }
         public ActionResult Logout()
         {
             Session.Abandon();
-            Session.Clear();
             FormsAuthentication.SignOut();
+            ViewBag.IsLoggedOut = "true";
             return RedirectToAction("CustomerLogin", "Account");
         }
     }

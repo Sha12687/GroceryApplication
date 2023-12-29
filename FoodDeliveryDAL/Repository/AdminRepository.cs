@@ -89,5 +89,10 @@ namespace FoodDeliveryDAL.Repository
         {
             _context.SaveChanges();
         }
+
+        public Admin GetAdminByUserNamePhone(string userName, string phoneNumber)
+        {
+           return _context.Admins.FirstOrDefault(a=>a.UserName == userName && a.PhoneNumber == phoneNumber);
+        }
     }
 }

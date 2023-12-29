@@ -19,7 +19,7 @@ namespace FoodDeliveryApplicationUI.Controllers
         private readonly IProductRepository productRepository;
         private readonly ICartRepository cartRepository;
         private readonly IOrderRepository orderRepository;
-        private readonly IOrderDetailRepository orderDetailRepository;
+      
 
         public CustomerController(ICustomerRepository customerRepository, IProductRepository productRepository, ICartRepository cartRepository, IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
         {
@@ -28,7 +28,7 @@ namespace FoodDeliveryApplicationUI.Controllers
             this.productRepository = productRepository;
             this.cartRepository = cartRepository;
             this.orderRepository = orderRepository;
-            this.orderDetailRepository = orderDetailRepository;
+           
         }
         // GET: Customer
         public ActionResult Index()

@@ -14,16 +14,16 @@ namespace FoodDeliveryApplicationUI.Controllers
     [Authorize(Roles = "Customer")]
     public class CustomerController : Controller
     {
-      //  private readonly FoodDbContext _context;
+        //  private readonly FoodDbContext _context;
         private readonly ICustomerRepository customerRepository;
         private readonly IProductRepository productRepository;
         private readonly ICartRepository cartRepository;
         private readonly IOrderRepository orderRepository;
         private readonly IOrderDetailRepository orderDetailRepository;
 
-        public CustomerController(ICustomerRepository customerRepository ,IProductRepository productRepository,ICartRepository cartRepository, IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
+        public CustomerController(ICustomerRepository customerRepository, IProductRepository productRepository, ICartRepository cartRepository, IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
         {
-         //   _context = new FoodDbContext();
+            //   _context = new FoodDbContext();
             this.customerRepository = customerRepository;
             this.productRepository = productRepository;
             this.cartRepository = cartRepository;
@@ -79,7 +79,7 @@ namespace FoodDeliveryApplicationUI.Controllers
             {
                 // Add the item to the database or perform other business logic
                 cartRepository.CreateCartItem(addTocart);
-               
+
                 return RedirectToAction("Index", "Customer");
             }
             return RedirectToAction("Index", "Customer");
@@ -92,8 +92,8 @@ namespace FoodDeliveryApplicationUI.Controllers
                 ModelState.AddModelError("errorMessage", "User session not found. Please log in.");
                 return RedirectToAction("Index", "Customer");
             }
-            int temp=Convert.ToInt32(userId);   
-            var existingCartItem = customerRepository.GetCartItemByProductIdAndCustomerId( productId , temp);
+            int temp = Convert.ToInt32(userId);
+            var existingCartItem = customerRepository.GetCartItemByProductIdAndCustomerId(productId, temp);
 
             if (existingCartItem != null)
             {
@@ -123,10 +123,10 @@ namespace FoodDeliveryApplicationUI.Controllers
                 };
 
                 cartRepository.CreateCartItem(addTocart);
-              
+
             }
 
-          
+
             return RedirectToAction("Index", "Customer");
         }
 
@@ -140,10 +140,10 @@ namespace FoodDeliveryApplicationUI.Controllers
             }
             var loggedInUserId = (int?)Session["UserId"];
             // Retrieve cart items for the specified customer
-          
+
             var cartItems = cartRepository.GetCartItemsByCustomerId(customerId);
-                // Create a list of CartViewModel to pass to the view
-                var carViewList = cartItems.Select(item => new CartViewModel
+            // Create a list of CartViewModel to pass to the view
+            var carViewList = cartItems.Select(item => new CartViewModel
             {
                 CartId = item.CartId,
                 ImageFileName = item.ImageFileName,
@@ -164,11 +164,11 @@ namespace FoodDeliveryApplicationUI.Controllers
             if (cartItem != null)
             {
                 // Update the quantity
-                cartItem.Quantity =newQuantity;
+                cartItem.Quantity = newQuantity;
 
                 cartRepository.cartSaveChanges();
             }
-          return View();
+            return View();
         }
 
         public ActionResult PlaceOrder(int[] cartIds, int? customerId)
@@ -177,11 +177,11 @@ namespace FoodDeliveryApplicationUI.Controllers
             if (customerId == null)
             {
                 var existingOrder = Session["OrderViewModel"] as OrderViewModel;
-                    return View(existingOrder);
+                return View(existingOrder);
             }
             else
             {
-                int custId=Convert.ToInt32(customerId);
+                int custId = Convert.ToInt32(customerId);
                 var cartItems = cartRepository.GetCartItemById(cartIds);
                 var customer = customerRepository.GetCustomerById(custId);
 
@@ -221,7 +221,7 @@ namespace FoodDeliveryApplicationUI.Controllers
             var order = new Order
             {
                 OrderDate = DateTime.Now,
-                CustomerId = customer.Id,         
+                CustomerId = customer.Id,
                 TotalAmount = cartItems.Sum(item => item.Quantity * item.Price),
                 OrderDetails = cartItems.Select(item => new OrderDetail
                 {
@@ -249,8 +249,8 @@ namespace FoodDeliveryApplicationUI.Controllers
             var order = orderRepository.GetOrderById(orderId);
             var message = new OrderViewModel
             {
-                OrderId= order.OrderId,
-                TotalAmount= order.TotalAmount,
+                OrderId = order.OrderId,
+                TotalAmount = order.TotalAmount,
             };
             return View(message);
         }
@@ -262,21 +262,66 @@ namespace FoodDeliveryApplicationUI.Controllers
 
         public ActionResult ViewOrderedProducts()
         {
-
             int userId = (int)Session["UserId"];
             var orders = orderRepository.GetOrdersByCustomerId(userId);
             var productViewModels = orders
            .SelectMany(od => od.OrderDetails.Select(detail => new OrderDetailsViewModel
            {
+               OrderDate=detail.Order.OrderDate,
                ProductId = detail.OrderId,
                ProductName = detail.ProductName,
                Quantity = detail.Quantity,
                Price = detail.price
            }))
            .ToList();
-
-
             return View(productViewModels);
         }
+        public ActionResult ViewProfile(int customerId)
+        {
+            CustomerModel viewProfile = GetCustomerProfile(customerId);
+            return View(viewProfile);
+        }
+
+        public ActionResult EditCustomer(int customerId)
+        {
+            CustomerModel customer = GetCustomerProfile(customerId);
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCustomer(CustomerModel customer)
+        {
+            Customer ToUpdateProfile = customerRepository.GetCustomerById(customer.Id);
+            if(ToUpdateProfile != null)
+            {
+                ToUpdateProfile.FirstName = customer.FirstName;
+                ToUpdateProfile.LastName = customer.LastName;
+                ToUpdateProfile.Email = customer.Email;
+                ToUpdateProfile.PhoneNumber = customer.PhoneNumber;
+                ToUpdateProfile.UserName = customer.UserName;
+                customerRepository.customerSAveChanges();
+
+            }
+            return RedirectToAction("ViewProfile", "Customer", new { customerId = ToUpdateProfile.Id });
+        }
+
+        
+        public CustomerModel GetCustomerProfile(int customerId)
+        {
+            var customerProfile = customerRepository.GetCustomerById(customerId);
+            var viewProfile = new CustomerModel
+            {
+                Id = customerProfile.Id,
+                FirstName = customerProfile.FirstName,
+                LastName = customerProfile.LastName,
+                UserName = customerProfile.UserName,
+                Email = customerProfile.Email,
+                PhoneNumber = customerProfile.PhoneNumber,
+            };
+            return viewProfile;
+        }
+
+       
     }
 }

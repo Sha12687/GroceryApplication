@@ -74,6 +74,7 @@
 
             </li>
             <li>@Html.ActionLink("View Orders", "ViewOrderedProducts", "Customer")</li>
+            <li>@Html.ActionLink("View Profile", "ViewProfile", "Customer", new { customerId = userId }, null)</li>
 
 
         </ul>
@@ -89,14 +90,19 @@
                     <li>@Html.ActionLink("Home", "Index", "Account", new { area = "" }, new { @class = "nav-link" })</li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                     <li class="nav-item nav-link disabled text-light">
-                   Welcome, @User.Identity.Name!
-                     </li>
-                 <li>@Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                      
+                        <li class="nav-item">
+                            @Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                          <li class="nav-item nav-link disabled text-light ml-auto me-5">
+                           Welcome, @User.Identity.Name!
+                             </li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Log in", "Login", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Log in", "Login", "Account", new { area = "" }, new { @class = "nav-link" })
+                        </li>
                     }
                 </ul>
             </div>

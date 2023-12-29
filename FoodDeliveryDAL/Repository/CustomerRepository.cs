@@ -80,6 +80,10 @@ namespace FoodDeliveryDAL.Repository
             return customer;
         }
 
+        public int customerSAveChanges()
+        {
+         return   _context.SaveChanges();
+        }
         public bool CustomerExists(string userName)
         {
             return _context.Customers.Any(a => a.UserName == userName);

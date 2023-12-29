@@ -227,36 +227,7 @@ namespace FoodDeliveryApplicationUI.Controllers
                 }
             }
         }
-        [HttpPost]
-        public ActionResult RemoveCartItem(int cartId)
-        {
-            // Ensure the user is logged in
-            if (Session["UserId"] == null)
-            {
-                TempData["ErrorMessage"] = "User not logged in.";
-                return RedirectToAction("ViewCart");
-            }
-
-            // Retrieve the user's ID from the session
-            int userId = Convert.ToInt32(Session["UserId"]);
-
-            // Find the cart item for the specified cartId and userId
-            var cartItem = cartRepository.GetCartItemByCartIdAndCustomerId(cartId ,userId);
-
-            if (cartItem == null)
-            {
-                TempData["ErrorMessage"] = "Cart item not found.";
-                return RedirectToAction("ViewCart", "Customer");
-            }
-
-            // Remove the cart item
-            cartRepository.DeleteCartItem(cartItem.CartId);
-
-            // Save changes and check for errors
-           
-
-            return RedirectToAction("ViewCart", "Customer", new { customerId = userId });
-        }
+     
 
     }
 }

@@ -63,11 +63,6 @@
         <form method="post" action="@Url.Action("PlaceOrder", "Customer")">
             @Html.AntiForgeryToken()
 
-            @foreach (var item in Model)
-            {
-                <input type="hidden" name="cartIds[]" value="@item.CartId" />
-            }
-
             <input type="hidden" name="customerId" value="@Session["UserId"]" />
 
             <button type="submit" class="btn btn-danger">Place Order</button>

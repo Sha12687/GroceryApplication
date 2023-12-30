@@ -19,16 +19,16 @@ namespace FoodDeliveryApplicationUI.Controllers
         private readonly IProductRepository productRepository;
         private readonly ICartRepository cartRepository;
         private readonly IOrderRepository orderRepository;
-      
+        private readonly IAddressRepository addressRepository;
 
-        public CustomerController(ICustomerRepository customerRepository, IProductRepository productRepository, ICartRepository cartRepository, IOrderRepository orderRepository )
+        public CustomerController(ICustomerRepository customerRepository, IProductRepository productRepository, ICartRepository cartRepository, IOrderRepository orderRepository ,IAddressRepository addressRepository)
         {
             //   _context = new FoodDbContext();
             this.customerRepository = customerRepository;
             this.productRepository = productRepository;
             this.cartRepository = cartRepository;
             this.orderRepository = orderRepository;
-           
+            this.addressRepository = addressRepository;
         }
         // GET: Customer
         public ActionResult Index()
@@ -192,18 +192,37 @@ namespace FoodDeliveryApplicationUI.Controllers
             }
             else
             {
+             var cartItems2 = cartRepository.GetCartItemsByCustomerId(customerId);
+                int[] cartIds1 = cartItems2.Select(item => item.CartId).ToArray();
                 int custId = Convert.ToInt32(customerId);
-                var cartItems = cartRepository.GetCartItemById(cartIds);
+                var cartItems = cartRepository.GetCartItemById(cartIds1);
                 var customer = customerRepository.GetCustomerById(custId);
+             var UserAddress = addressRepository.GetAddressesByUserId(custId);
+                List<AddressViewModel> addressModel = null;
 
+                if (UserAddress != null && UserAddress.Any())
+                {
+                    // User has addresses, create the addressModel
+                    addressModel = UserAddress.Select(address => new AddressViewModel
+                    {
+                        Id = address.Id,
+                        Street = address.Street,
+                        City = address.City,
+                        PostalCode = address.PostalCode,
+                        State = address.State,
+                        Country = address.Country,
+                    }).ToList();
+                }
                 var order = new OrderViewModel
                 {
                     name = customer.UserName,
                     CustId = customer.Id,
                     UserName = customer.UserName,
                     OrderDate = DateTime.Now,
+                    Addresses = addressModel,
                     OrderDetails = cartItems.Select(item => new OrderDetailsViewModel
                     {
+                        
                         ProductName = item.ProductName,
                         Quantity = item.Quantity,
                         Price = item.Price,
@@ -264,14 +283,15 @@ namespace FoodDeliveryApplicationUI.Controllers
         }
 
         public ActionResult OrderConfirmation(int orderId)
-        {
-            // Retrieve the order for confirmation
+        {  
             var order = orderRepository.GetOrderById(orderId);
             var message = new OrderViewModel
             {
                 OrderId = order.OrderId,
                 TotalAmount = order.TotalAmount,
             };
+
+          
             return View(message);
         }
 

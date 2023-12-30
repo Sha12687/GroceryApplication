@@ -159,7 +159,7 @@ namespace FoodDeliveryApplicationUI.Controllers
 
         [HttpPost]
         public ActionResult UpdateCartQuantity(int cartId, int newQuantity)
-        {
+         {
 
             var cartItem = cartRepository.GetCartItemById(cartId);
             var product = productRepository.GetProductById(cartItem.ProductId);

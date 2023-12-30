@@ -1,9 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Blog Tracker App</title>
+    <title>@ViewBag.Title -Grocery App</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -29,6 +32,12 @@
             background-color: #f4f4f4;
         }
 
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
+
         .jumbotron {
             padding: 1rem 2rem;
         }
@@ -44,12 +53,13 @@
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
         <div class="container">
-            @Html.ActionLink("Food Delivery", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+            @Html.ActionLink("Grocery Delivery", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <div @*class="collapse navbar-collapse d-sm-inline-flex justify-content-between"*@>
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Registration", "Registration", "Account", new { area = "" }, new { @class = "nav-link" })</li>
@@ -64,15 +74,14 @@
 
                         </div>
                     </li>
-                    }
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container-fluid body-content" style="margin:auto">
         @RenderBody()
         <hr />
-       
+
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

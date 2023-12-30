@@ -1,33 +1,195 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    //ViewBag.Title = "Grocery App";
+
 }
+<head>
+    <link rel="stylesheet" href="~/Content/Styles.css" />
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+</head>
+<div class="background-image2">
+    <main>
+        <div class="d-flex align-items-center justify-content-center">
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+            <div class="card1" style="background-image: url('https://cdn.shopaccino.com/refresh/articles/asre-906919_l.jpg');">
+                <p1 style="color:azure"><h2>Natural spices</h2></p1>
+                <p1 style="color:azure">Up to 25% off</p1>
+
+
+            </div>
+            <div class="card1" style="background-image: url('https://img.freepik.com/free-photo/soybean-oil-soybean-food-beverage-products-food-nutrition-concept_1150-26352.jpg?size=626&ext=jpg&ga=GA1.1.1710634175.1696222511&semt=ais');">
+                <p1 style="color:sandybrown">
+                    <h2>Fresh oil & ghee</h2>
+                </p1>
+                <p1 style="color:sandybrown">Up to 20% off</p1>
+            </div>
+
+
+            <div class="card1" style="background-image: url('https://img.freepik.com/free-photo/sack-rice-seed-with-white-rice-small-wooden-spoon-rice-plant_1150-35744.jpg?size=626&ext=jpg&ga=GA1.1.1710634175.1696222511&semt=ais');">
+                <p1 style="color:yellow"><h2>Rice & wheat</h2></p1>
+                <p1 style="color:yellow">Up to 25% off</p1>
+            </div>
+
+            <div class="card1" style="background-image: url('https://img.freepik.com/free-photo/raw-chicken-thighs-dark-wooden-surface_1150-43945.jpg?size=626&ext=jpg&ga=GA1.1.1710634175.1696222511&semt=ais'); ">
+                <p1 style="color:white"> <h2>Get Your Protien</h2></p1>
+                <p1 style="color:white">Up to 10% off</p1>
+            </div>
+
+            <div class="card1" style="background-image: url('https://img.freepik.com/free-photo/abstract-shot-bathroom-items-concept-hygiene_181624-47889.jpg?size=626&ext=jpg&ga=GA1.1.1710634175.1696222511&semt=ais');">
+                <p1 style=" color:cornflowerblue"><h2>Hygiene Essentials</h2></p1>
+                <p1 style=" color:cornflowerblue">Up to 35% off</p1>
+            </div>
+
+        </div>
+
+        @*text animation code*@
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            var i = 0;
+            window.onload = function nextMsg() {
+                if (i == 3) {
+                    // once there is no more message, do whatever you want
+                    i = 0;
+                    $('#message').html(messages[i]).fadeIn(500).delay(1000).fadeOut(500, nextMsg);
+                } else {
+                    // change content of message, fade in, wait, fade out and continue with next message
+                    $('#message').html(messages[i]).fadeIn(500).delay(1000).fadeOut(500, nextMsg);
+                }
+                i++;
+            };
+            // list of messages to display
+            var messages = [
+                "We’ll meet your grocery demands",
+                "We make grocery shopping simple",
+                "The  smart way to do groceries"
+            ].reverse();
+
+            // initially hide the message
+            $('#message').hide();
+
+            // start animation
+            nextMsg();</script>
+
+
+        <div id="message" style="font-family:'Bookman Old Style'; font-size:xx-large;" class="d-flex align-items-center justify-content-center" > </div>
+
+
+        @*text animation code*@
+
+    </main>
+
+    <br />
+
+
+    <div class="cards1">
+        <div class="cardmain">
+        </div>
     </div>
-</main>
+    <br />
+
+    <div class="d-flex align-items-center justify-content-center">
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-vegetables_480_250923.jpg?tr=w-1920,q=80'); ">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_fresh-fruits_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_cuts-&-exotics_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/41a0810e-1fc3-46e4-9d2c-7d9e79e0aa29/hp_f&v_m_herbs-&-seasoning_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+    </div>
+    <br />
+    <div class="card-container" style=" display: flex; align-items: center; margin:30px;">
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/e4a9856b-dc3f-4927-a5a1-8edfe8d7dc38/hp_bev_m_health-drinks-&-supplements_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/e4a9856b-dc3f-4927-a5a1-8edfe8d7dc38/hp_bev_m_tea-&-coffee_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/e4a9856b-dc3f-4927-a5a1-8edfe8d7dc38/hp_bev_m_flavoured-&-soya-milk_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/e4a9856b-dc3f-4927-a5a1-8edfe8d7dc38/hp_bev_m_juices_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/e4a9856b-dc3f-4927-a5a1-8edfe8d7dc38/hp_bev_m_energy-drinks_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/e4a9856b-dc3f-4927-a5a1-8edfe8d7dc38/hp_bev_m_soft-drinks-&-more_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/1efc132e-4754-4359-a9a3-a9c3ec267d28/hp_GM-storage-container_m_250723_05.jpg?tr=w-1920,q=80');">
+        </div>
+
+        <div class="xhov" style="background-image: url('https://www.bigbasket.com/media/customPage/b01eee88-e6bc-410e-993c-dedd012cf04b/91e53046-98e0-4c5b-ae53-7d073e5210e1/50aa5fc7-cfa4-4919-b3ba-064fd9aa9441/hp_b&h_m_minimum-30-off_480_250923.jpg?tr=w-1920,q=80');">
+        </div>
+
+    </div>
+
+
+    <br />
+    <br />
+</div>
+<footer>
+    <div class="useful-links">
+        <h3> Useful Links</h3>
+        <div class="column">
+            <ul>
+                <li> About</li>
+                <li> Careers</li>
+                <li> Blog</li>
+                <li> Press</li>
+                <li> Lead</li>
+                <li> Value</li>
+            </ul>
+        </div>
+        <div class="column">
+            <ul>
+                <li> Terms</li>
+                <li> Privacy</li>
+                <li> FAQs</li>
+                <li> Security</li>
+                <li> Mobile</li>
+                <li> Contact</li>
+            </ul>
+        </div>
+        <div class="column">
+            <ul>
+                <li> Partner</li>
+                <li> Express</li>
+                <li> Seller</li>
+                <li> Spotlight</li>
+                <li> Warehouse</li>
+                <li> Deliver</li>
+            </ul>
+        </div>
+    </div>
+    <div class="categories">
+        <h3> Categories</h3>
+        <div class="ccolumn">
+            <ul>
+                <li> Vegetables & Fruits</li>
+                <li> Dairy & Breakfast</li>
+                <li> Munchies</li>
+                <li> Cold Drinks & Juices</li>
+                <li> Instant & Frozen Food</li>
+                <li> Tea, Coffee & Health Drinks</li>
+                <li> Bakery & Biscuits</li>
+                <li> Sweet Tooth</li>
+                <li> Atta, Rice & Dal</li>
+                <li> Dry Fruits, Masala & Oil</li>
+            </ul>
+        </div>
+        <div class="ccolumn">
+            <ul>
+                <li> Sauces & Spreads</li>
+                <li> Chicken, Meat & Fish</li>
+                <li> Organic & Premium</li>
+                <li> Cleaning Essentials</li>
+                <li> Beauty & Cosmetics</li>
+                <li> Personal Care</li>
+                <li> Ice Creams & Frozen Desserts</li>
+                <li> Toys & Games</li>
+            </ul>
+        </div>
+    </div>
+    <div class="foot">
+        <p> Thank you for choosing bigbasket for your grocery shopping needs! We're committed to making your life easier and healthier If you have any questions, suggestions, or feedback, please don't hesitate to reach out. Happy shopping!</p>
+        <p> &copy; 2023 bibasket. All rights reserved.</p>
+    </div>
+</footer>

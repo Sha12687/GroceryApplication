@@ -93,5 +93,10 @@ namespace FoodDeliveryDAL.Repository
         {
             return _context.Customers.Any(a => a.Email == Email);
         }
+
+        public Customer GetCustomerByUserNamePhone(string UserName, string PhoneNumber)
+        {
+           return _context.Customers.FirstOrDefault(a=>a.UserName==UserName && a.PhoneNumber==PhoneNumber); 
+        }
     }
     }

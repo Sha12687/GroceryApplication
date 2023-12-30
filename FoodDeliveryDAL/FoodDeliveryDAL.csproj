@@ -156,6 +156,10 @@
     <Compile Include="Migrations\202312271319073_priceToOrderDetails.designer.cs">
       <DependentUpon>202312271319073_priceToOrderDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202312291017338_toProductTable.cs" />
+    <Compile Include="Migrations\202312291017338_toProductTable.designer.cs">
+      <DependentUpon>202312291017338_toProductTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderDetail.cs" />
@@ -204,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202312271319073_priceToOrderDetails.resx">
       <DependentUpon>202312271319073_priceToOrderDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312291017338_toProductTable.resx">
+      <DependentUpon>202312291017338_toProductTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

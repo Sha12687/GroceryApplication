@@ -41,9 +41,9 @@ namespace FoodDeliveryDAL.Repository
         // Create
         public Cart CreateCartItem(Cart cartItem)
         {
-            _context.Carts.Add(cartItem);
+           var savedItem=_context.Carts.Add(cartItem);
             _context.SaveChanges();
-            return cartItem;
+            return savedItem;
         }
 
         // Read

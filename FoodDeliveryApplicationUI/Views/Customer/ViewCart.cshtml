@@ -45,9 +45,9 @@
                             </div>
                         </td>
                         <td class="text-center align-middle align-middle">@item.Price</td>
-                        <td class="align-middle">@(item.Quantity * item.Price)</td>
+                 <td class="align-middle subtotal-column" id="subtotal_@item.CartId">@(item.Quantity * item.Price)</td>
                         <td class="align-middle">
-                            <form method="post" action="@Url.Action("RemoveCartItem", "Product")">
+                            <form method="post" action="@Url.Action("RemoveCartItem", "Customer")">
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="cartId" value="@item.CartId" />
                                 <button type="submit" class="btn btn-danger">Remove</button>
@@ -58,8 +58,7 @@
             </tbody>
         </table>
 
-        <p>Total: $@(Model.Sum(item => item.Quantity * item.Price))</p>
-
+        <p>Total: $<span id="totalPrice">@Model.Sum(item => item.Quantity * item.Price)</span></p>
 
         <form method="post" action="@Url.Action("PlaceOrder", "Customer")">
             @Html.AntiForgeryToken()
@@ -74,18 +73,17 @@
             <button type="submit" class="btn btn-danger">Place Order</button>
         </form>
 
-
     }
     else
     {
         <p>Your cart is empty.</p>
     }
 </div>
-
 @section Scripts {
     <script>
         function updateQuantity(cartId, change) {
             var quantityInput = $('#quantity_' + cartId);
+            var subTotal = $('#subtotal_' + cartId);
             var currentQuantity = parseInt(quantityInput.val());
             var newQuantity = currentQuantity + change;
 
@@ -105,15 +103,26 @@
                 success: function (response) {
                     if (response.success) {
                         // Update the subtotal on the UI
-                        var subtotal = newQuantity * response.subtotal;
-                        $('#subtotal_' + cartId).text(subtotal.toFixed(2));
+                        $('#subtotal_' + cartId).text(response.subtotal.toFixed(2));
 
                         // Update the total price on the UI
                         var total = calculateTotal();
                         $('#totalPrice').text(total.toFixed(2));
-                    } 
-                }
+                    } else {
+                        // Display the error message
+                        alert(response.errorMessage);
 
+                        // If the quantity update is not successful, revert the input value
+                        quantityInput.val(currentQuantity);
+                    }
+                },
+                error: function () {
+                    // Handle AJAX error if needed
+                    alert('An error occurred while updating the cart.');
+
+                    // If there is an AJAX error, revert the input value
+                    quantityInput.val(currentQuantity);
+                }
             });
         }
 
@@ -124,6 +133,6 @@
             });
             return total;
         }
-
     </script>
 }
+

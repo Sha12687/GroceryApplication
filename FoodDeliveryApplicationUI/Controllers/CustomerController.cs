@@ -19,16 +19,16 @@ namespace FoodDeliveryApplicationUI.Controllers
         private readonly IProductRepository productRepository;
         private readonly ICartRepository cartRepository;
         private readonly IOrderRepository orderRepository;
-        private readonly IOrderDetailRepository orderDetailRepository;
+      
 
-        public CustomerController(ICustomerRepository customerRepository, IProductRepository productRepository, ICartRepository cartRepository, IOrderRepository orderRepository, IOrderDetailRepository orderDetailRepository)
+        public CustomerController(ICustomerRepository customerRepository, IProductRepository productRepository, ICartRepository cartRepository, IOrderRepository orderRepository )
         {
             //   _context = new FoodDbContext();
             this.customerRepository = customerRepository;
             this.productRepository = productRepository;
             this.cartRepository = cartRepository;
             this.orderRepository = orderRepository;
-            this.orderDetailRepository = orderDetailRepository;
+           
         }
         // GET: Customer
         public ActionResult Index()
@@ -159,17 +159,28 @@ namespace FoodDeliveryApplicationUI.Controllers
 
         [HttpPost]
         public ActionResult UpdateCartQuantity(int cartId, int newQuantity)
-        {
+         {
+
             var cartItem = cartRepository.GetCartItemById(cartId);
+            var product = productRepository.GetProductById(cartItem.ProductId);
+            if (product.ProductQuantity < newQuantity)
+            {
+                return Json(new { success = false, errorMessage = $"Only {product.ProductQuantity} available." });
+            }
+
             if (cartItem != null)
             {
                 // Update the quantity
                 cartItem.Quantity = newQuantity;
 
                 cartRepository.cartSaveChanges();
+                var subtotal = cartItem.Quantity * cartItem.Price;
+                return Json(new { success = true, subtotal });
             }
-            return View();
+            return Json(new { success = true });
         }
+
+
 
         public ActionResult PlaceOrder(int[] cartIds, int? customerId)
         {
@@ -238,6 +249,15 @@ namespace FoodDeliveryApplicationUI.Controllers
             foreach (var cartItem in cartItems)
             {
                 cartRepository.DeleteCartItem(cartItem.CartId);
+                var ProductItem=productRepository.GetProductById(cartItem.ProductId);
+                if(cartItem.Quantity == ProductItem.ProductQuantity)
+                productRepository.DeleteProduct(cartItem.ProductId);
+                else
+                {
+                    int newQuantity = Convert.ToInt32(ProductItem.ProductQuantity)- Convert.ToInt32(cartItem.Quantity);
+                    ProductItem.ProductQuantity = newQuantity;
+                    productRepository.SaveProductChanges();
+                }
             }
 
             return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
@@ -322,6 +342,37 @@ namespace FoodDeliveryApplicationUI.Controllers
             return viewProfile;
         }
 
-       
+
+
+        [HttpPost]
+        public ActionResult RemoveCartItem(int cartId)
+        {
+            // Ensure the user is logged in
+            if (Session["UserId"] == null)
+            {
+                TempData["ErrorMessage"] = "User not logged in.";
+                return RedirectToAction("ViewCart");
+            }
+
+            // Retrieve the user's ID from the session
+            int userId = Convert.ToInt32(Session["UserId"]);
+
+            // Find the cart item for the specified cartId and userId
+            var cartItem = cartRepository.GetCartItemByCartIdAndCustomerId(cartId, userId);
+
+            if (cartItem == null)
+            {
+                TempData["ErrorMessage"] = "Cart item not found.";
+                return RedirectToAction("ViewCart", "Customer");
+            }
+
+            // Remove the cart item
+            cartRepository.DeleteCartItem(cartItem.CartId);
+
+            // Save changes and check for errors
+
+
+            return RedirectToAction("ViewCart", "Customer", new { customerId = userId });
+        }
     }
 }

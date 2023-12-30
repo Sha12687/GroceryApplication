@@ -9,7 +9,7 @@ namespace FoodDeliveryDAL.Interface
     public interface ICustomerRepository
     {
         // Create
-
+        Customer GetCustomerByUserNamePhone(string UserName, string PhoneNumber);
          int customerSAveChanges();
         Cart GetCartItemByProductIdAndCustomerId(int productId, int customerId);
         Customer GetCustomerByUserName(string userName);

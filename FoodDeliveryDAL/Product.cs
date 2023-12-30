@@ -9,6 +9,7 @@ namespace FoodDeliveryDAL
 {
     public class Product
     {
+        public int ProductQuantity { get; set; }
         public int ProductId { get; set; }
 
         [Required(ErrorMessage = "Product Name is required")]

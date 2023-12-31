@@ -11,6 +11,7 @@ namespace FoodDeliveryApplicationUI
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
+            container.RegisterType<IAddressRepository, AddressRepository>();
             container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<ICustomerRepository, CustomerRepository>();
             container.RegisterType<IAdminRepository, AdminRepository>();

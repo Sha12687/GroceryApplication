@@ -206,5 +206,6 @@ namespace FoodDeliveryApplicationUI.Controllers
             ViewBag.IsLoggedOut = "true";
             return RedirectToAction("CustomerLogin", "Account");
         }
+       
     }
 }

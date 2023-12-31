@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Blog Tracker App</title>
+    <title>@ViewBag.Title - Grocery App</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
@@ -27,58 +27,120 @@
         .dropdown:hover .dropdown-menu {
             display: block;
         }
-
         .sidenav {
+            width: 230px;
             height: 100%;
-            width: 250px;
             position: fixed;
             z-index: 1;
             top: 0;
-            left: 0;
             background-color: #333;
-            padding-top: 120px
+            overflow-x: hidden;
+            padding-top: 20px;
+            transition: 0.5s;
         }
 
-            .sidenav a {
-                padding: 8px 8px 8px 16px;
-                text-decoration: none;
-                font-size: 18px;
-                color: #818181;
-                display: block;
-                transition: 0.3s;
+            .sidenav ul {
+                  margin-top:30px;
+                list-style-type: none;
+                padding: 0;
             }
 
-                .sidenav a:hover {
+            .sidenav li {
+        
+                text-decoration: none;
+                font-size: 18px;
+                color: #e9ecef;
+                display: flex;
+                align-items:center;
+                justify-content:center;
+                transition: color 0.60s;
+            }
+
+                .sidenav li:hover {
                     color: #f1f1f1;
                 }
 
+            .sidenav a {
+                text-decoration: none;
+            }
+
+            .sidenav:hover {
+                left: 0;
+            }
+
+            /* Add a simple animation on touch */
+            .sidenav ul li:active {
+                transform: scale(0.95);
+            }
+
         .main-content {
             margin-left: 230px; /* Adjust this margin based on your side navigation bar width */
-            padding: 0px 0px 20px 20px; /* Adjust padding as needed */
+             /* Adjust padding as needed */
+        }
+        .sidenav ul li.divider {
+            border-bottom: 1px solid #555; /* Adjust color and style as needed */
+          /*  margin-bottom: 5px;*/ /* Adjust spacing between items */
+        }
+
+        .sidenav-logo {
+            text-align: center; /* Center the logo */
+            margin-bottom: 20px; /* Add some space below the logo */
+        }
+
+            .sidenav-logo img {
+                Width: 45%;
+                max-width: 110px;
+                height: auto;
+                border-radius: 50%
+            }
+        .product-link:hover,
+        .product-link:hover a {
+            background: white; /* Change to the desired hover color for li */
+            cursor: pointer;
+            color: black;
+        }
+
+        .product-link {
+            height: 50px;
+            display: flex;
+            align-items: center;
+           
+        }
+        .product-link a{
+            color:white;
+        }
+        .product-link a:hover {
+            color: black; /* Change to the desired hover color */
         }
     </style>
 </head>
 <body>
-    <div class="sidenav">
-        <ul>
-            <li>@Html.ActionLink("Product  ", "Index", "Customer")</li>
-            <li>
+    <div class="sidenav bg-dark">
+        <ul class=" list-unstyled">
+            <div class="sidenav-logo">
+                <img src="https://www.shutterstock.com/image-vector/grocery-store-logo-template-concept-260nw-1017069055.jpg" alt="Logo">
+            </div>
+            <li class="divider mt-5"></li>
+            <li class=" product-link  ">@Html.ActionLink("Product", "Index", "Customer", new { })</li>
+            <li class="divider"></li>
+            <li class=" product-link ">
                 @if (userId != null)
                 {
-                    @Html.ActionLink("View Cart", "ViewCart", "Customer", new { customerId = userId }, null)
+                    @Html.ActionLink("View Cart", "ViewCart", "Customer", new { customerId = userId },null)
                 }
                 else
                 {
                     @Html.ActionLink("Login", "CustomerLogin", "Account")
                 }
-
             </li>
-            <li>@Html.ActionLink("View Orders", "ViewOrderedProducts", "Customer")</li>
-            <li>@Html.ActionLink("View Profile", "ViewProfile", "Customer", new { customerId = userId }, null)</li>
-
-
+            <li class="divider"></li>
+            <li class=" product-link">@Html.ActionLink("View Orders", "ViewOrderedProducts", "Customer")</li>
+            <li class="divider"></li>
+            <li class=" product-link">@Html.ActionLink("View Profile", "ViewProfile", "Customer", new { customerId = userId },null)</li>
+            <li class="divider"></li>
         </ul>
     </div>
+
 
 
     <div class="main-content">
@@ -90,13 +152,13 @@
                     <li>@Html.ActionLink("Home", "Index", "Account", new { area = "" }, new { @class = "nav-link" })</li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                      
+
                         <li class="nav-item">
                             @Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })
                         </li>
-                          <li class="nav-item nav-link disabled text-light ml-auto me-5">
-                           Welcome, @User.Identity.Name!
-                             </li>
+                        <li class="nav-item nav-link disabled text-light ml-auto me-5">
+                            Welcome, @User.Identity.Name!
+                        </li>
                     }
                     else
                     {

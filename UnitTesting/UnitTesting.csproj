@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CartUintTesting.cs" />
+    <Compile Include="OrderClassUnitTesting.cs" />
+    <Compile Include="ProductTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,7 @@ namespace FoodDeliveryDAL.Data
            
             base.OnModelCreating(modelBuilder);
         }
+       
     }
 
 }

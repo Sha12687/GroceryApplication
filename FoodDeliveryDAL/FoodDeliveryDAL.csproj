@@ -170,6 +170,14 @@
     <Compile Include="Migrations\202312301714075_removeColumn.designer.cs">
       <DependentUpon>202312301714075_removeColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202312310729304_chekup.cs" />
+    <Compile Include="Migrations\202312310729304_chekup.designer.cs">
+      <DependentUpon>202312310729304_chekup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312310830416_productTableValidation.cs" />
+    <Compile Include="Migrations\202312310830416_productTableValidation.designer.cs">
+      <DependentUpon>202312310830416_productTableValidation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderDetail.cs" />
@@ -228,6 +236,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202312301714075_removeColumn.resx">
       <DependentUpon>202312301714075_removeColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312310729304_chekup.resx">
+      <DependentUpon>202312310729304_chekup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312310830416_productTableValidation.resx">
+      <DependentUpon>202312310830416_productTableValidation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

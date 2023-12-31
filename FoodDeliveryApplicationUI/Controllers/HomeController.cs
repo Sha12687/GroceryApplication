@@ -30,7 +30,7 @@ namespace FoodDeliveryApplicationUI.Controllers
         }
 
 
-        private CustomerModel MapToViewModel(Customer customer)
+        public CustomerModel MapToViewModel(Customer customer)
         {
             return new CustomerModel
             {

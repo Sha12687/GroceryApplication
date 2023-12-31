@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDeliveryDAL", "FoodDeli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{D73576E1-EF5A-4020-8ED1-0418D6FF0EAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GorceryDeliveryServiceLayer", "GorceryDeliveryServiceLayer\GorceryDeliveryServiceLayer.csproj", "{55591BD4-DC83-4859-B116-238B5DA860B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D73576E1-EF5A-4020-8ED1-0418D6FF0EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D73576E1-EF5A-4020-8ED1-0418D6FF0EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D73576E1-EF5A-4020-8ED1-0418D6FF0EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55591BD4-DC83-4859-B116-238B5DA860B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55591BD4-DC83-4859-B116-238B5DA860B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55591BD4-DC83-4859-B116-238B5DA860B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55591BD4-DC83-4859-B116-238B5DA860B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

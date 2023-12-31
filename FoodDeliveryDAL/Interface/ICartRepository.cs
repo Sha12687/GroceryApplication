@@ -26,7 +26,7 @@ namespace FoodDeliveryDAL.Interface
         List<Cart> GetCartItemsByCustomerId(int? customerId);
 
         void DeleteCartItems(List<Cart> cartItems);
-        void RemoveCartItem(Cart cartItem);
+         Cart RemoveCartItem(Cart cartItem);
     }
 
 }

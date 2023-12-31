@@ -100,19 +100,23 @@ namespace FoodDeliveryApplicationUI.Controllers
         [HttpPost]
         public ActionResult Registration(UserView user)
         {
-            if (adminRepository.AdminExistsEmail( user.Email) || customerRepository.CustomerExistsEmail( user.Email))
+            if (adminRepository.AdminExistsEmail(user.Email) || customerRepository.CustomerExistsEmail(user.Email))
             {
                 // Email already registered
                 ModelState.AddModelError("Email", "Email already registered with us.");
-                return View("Registration", user);
             }
-            else if (adminRepository.AdminExists(user.UserName) || customerRepository.CustomerExists( user.UserName))
+            else if (adminRepository.AdminExists(user.UserName) || customerRepository.CustomerExists(user.UserName))
             {
                 // Username already registered
                 ModelState.AddModelError("UserName", "Username already registered with us.");
+            }
 
+            if (!ModelState.IsValid)
+            {
+                // Return the view with validation errors
                 return View("Registration", user);
             }
+
             if (user.UserType == 2)
             {
                 Customer customer = new Customer
@@ -127,7 +131,6 @@ namespace FoodDeliveryApplicationUI.Controllers
                 var passwordHash = new PasswordHasher<Customer>();
                 customer.Password = passwordHash.HashPassword(customer, user.Password);
                 customerRepository.CreateCustomer(customer);
-             
 
                 return RedirectToAction("Index", "Customer");
             }
@@ -145,7 +148,7 @@ namespace FoodDeliveryApplicationUI.Controllers
                 var passwordHash = new PasswordHasher<Admin>();
                 newadmin.Password = passwordHash.HashPassword(newadmin, user.Password);
                 adminRepository.CreateAdmin(newadmin);
-            
+
                 return RedirectToAction("Index", "Admin");
             }
         }

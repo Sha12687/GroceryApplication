@@ -10,7 +10,6 @@ namespace FoodDeliveryDAL.Interface
 
          int SaveProductChanges();
         Product CreateProduct(Product product);
-
         Product GetProductById(int productId);
         IEnumerable<Product> GetAllProducts();
 

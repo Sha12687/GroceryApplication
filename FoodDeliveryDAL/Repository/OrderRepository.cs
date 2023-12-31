@@ -25,6 +25,14 @@ namespace FoodDeliveryDAL.Repository
             _context.SaveChanges();
         }
 
+        public Order CreateOrder2(Order order)
+        {
+          var test=  _context.Orders.Add(order);
+            _context.SaveChanges();
+            return test;
+        }
+
+
         public Order GetOrderById(int orderId)
         {
             return _context.Orders.Find(orderId);

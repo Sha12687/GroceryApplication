@@ -9,6 +9,8 @@ namespace FoodDeliveryDAL.Interface
     public interface IOrderRepository
     {
         void CreateOrder(Order order);
+
+        Order CreateOrder2(Order order);
         Order GetOrderById(int orderId);
         IEnumerable<Order> GetAllOrders();
         void UpdateOrder(Order order);

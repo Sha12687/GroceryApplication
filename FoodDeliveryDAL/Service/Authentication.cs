@@ -11,7 +11,7 @@ namespace FoodDeliveryDAL.Service
 {
     public static class Authentication
     {
-        private  static readonly FoodDbContext context = new FoodDbContext();
+     private  static readonly FoodDbContext context = new FoodDbContext();
 
        
         public static bool VerifyAdminCredentials(string username, string password)

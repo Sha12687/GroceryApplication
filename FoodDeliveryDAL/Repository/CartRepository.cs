@@ -110,7 +110,7 @@ namespace FoodDeliveryDAL.Repository
             _context.SaveChanges();
         }
 
-        public void RemoveCartItem(Cart cartItem)
+        public Cart RemoveCartItem(Cart cartItem)
         {
             var existingCartItem = _context.Carts.Find(cartItem.CartId);
 
@@ -118,7 +118,9 @@ namespace FoodDeliveryDAL.Repository
             {
                 _context.Carts.Remove(existingCartItem);
                 _context.SaveChanges();
+                return existingCartItem;
             }
+            return null;
         }
     }
 }

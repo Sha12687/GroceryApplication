@@ -24,7 +24,7 @@ namespace FoodDeliveryDAL.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Configure the relationship between Customer and Order
-           
+         
             base.OnModelCreating(modelBuilder);
         }
        

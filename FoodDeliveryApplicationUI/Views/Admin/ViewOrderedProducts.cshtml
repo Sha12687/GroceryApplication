@@ -5,7 +5,7 @@
 }
 
 <h2>Ordered Products List</h2>
-<table class="table">
+<table id="OrderTable" class="table">
     <thead>
         <tr>
             <th>Order ID</th>
@@ -32,3 +32,31 @@
         }
     </tbody>
 </table>
+
+
+
+@section scripts {
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script>
+
+            $(document).ready(function () {
+                $.fn.dataTable.ext.order['dom-text'] = function (settings, col) {
+                    return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+                        return $('span', td).text();
+                    });
+                }
+
+                $('#OrderTable').DataTable({
+                searching: false, // Disable search bar
+
+                    columnDefs: [
+                        { type: 'dom-text', targets: 1 } // Use the 'dom-text' type for the second column (Order Date)
+                    ],
+                    order: [[1, 'desc']] // Sort by the second column (Order Date) in descending order (recent date first)
+            });
+        });
+    </script>
+}
+

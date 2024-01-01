@@ -100,6 +100,7 @@ namespace FoodDeliveryApplicationUI.Controllers
         [HttpPost]
         public ActionResult Registration(UserView user)
         {
+            int UserId= (int)Session["UserId"];
             if (adminRepository.AdminExistsEmail(user.Email) || customerRepository.CustomerExistsEmail(user.Email))
             {
                 // Email already registered
@@ -131,7 +132,10 @@ namespace FoodDeliveryApplicationUI.Controllers
                 var passwordHash = new PasswordHasher<Customer>();
                 customer.Password = passwordHash.HashPassword(customer, user.Password);
                 customerRepository.CreateCustomer(customer);
-
+                if (User.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
                 return RedirectToAction("Index", "Customer");
             }
             else
@@ -148,7 +152,7 @@ namespace FoodDeliveryApplicationUI.Controllers
                 var passwordHash = new PasswordHasher<Admin>();
                 newadmin.Password = passwordHash.HashPassword(newadmin, user.Password);
                 adminRepository.CreateAdmin(newadmin);
-
+                
                 return RedirectToAction("Index", "Admin");
             }
         }

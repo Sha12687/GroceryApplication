@@ -27,12 +27,7 @@ namespace FoodDeliveryDAL.Repository
             return _context.Carts
                 .FirstOrDefault(c => c.CartId == cartId && c.CusomerId == customerId);
         }
-        public List<Cart> GetCartItemsByCustomerId(int? customerId)
-        {
-            return _context.Carts
-                .Where(c => c.CusomerId == customerId)
-                .ToList();
-        }
+     
         public Cart GetCartItemByProductIdAndCustomerId(int productId, int customerId)
         {
             return _context.Carts

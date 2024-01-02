@@ -29,17 +29,7 @@ namespace FoodDeliveryDAL.Repository
             return _context.OrderDetails.Find(orderDetailId);
         }
 
-        public IEnumerable<OrderDetail> GetAllOrderDetails()
-        {
-            return _context.OrderDetails.ToList();
-        }
-
-        public void UpdateOrderDetail(OrderDetail orderDetail)
-        {
-            _context.Entry(orderDetail).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
+       
         public void DeleteOrderDetail(OrderDetail orderDetail)
         {
             _context.OrderDetails.Remove(orderDetail);

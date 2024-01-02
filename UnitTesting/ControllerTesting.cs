@@ -253,7 +253,7 @@ namespace test
             adminRepositoryMock.Setup(repo => repo.GetAdminById(adminId)).Returns(new Admin { Id = adminId, });
 
             // Act
-            var result = controller.EditAdmin(userView) as RedirectToRouteResult;
+            var result = controller.EditAdmin(userView.Id) as RedirectToRouteResult;
 
             // Assert
             ClassicAssert.IsNotNull(result);

@@ -324,29 +324,53 @@ namespace FoodDeliveryApplicationUI.Controllers
 
         public ActionResult EditCustomer(int customerId)
         {
-            CustomerModel customer = GetCustomerProfile(customerId);
-            return View(customer);
+            Customer customer = customerRepository.GetCustomerById(customerId);
+
+            var customerView = new EditUserView
+            {
+                Id = customer.Id,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                UserName = customer.UserName,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
+            };
+            return View(customerView);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCustomer(CustomerModel customer)
+        public ActionResult EditCustomer(EditUserView customer)
         {
-            Customer ToUpdateProfile = customerRepository.GetCustomerById(customer.Id);
-            if(ToUpdateProfile != null)
+            if (customerRepository.CustomerExistsEmail(customer.Email, customer.Id))
             {
-                ToUpdateProfile.FirstName = customer.FirstName;
-                ToUpdateProfile.LastName = customer.LastName;
-                ToUpdateProfile.Email = customer.Email;
-                ToUpdateProfile.PhoneNumber = customer.PhoneNumber;
-                ToUpdateProfile.UserName = customer.UserName;
-                customerRepository.customerSAveChanges();
-
+                // Email already registered
+                ModelState.AddModelError("Email", "Email already registered with us.");
             }
-            return RedirectToAction("ViewProfile", "Customer", new { customerId = ToUpdateProfile.Id });
+            if (!ModelState.IsValid)
+            {
+                // Return the same view with validation errors
+                return View("EditCustomer", customer);
+            }
+            else
+            {
+                Customer ToUpdateProfile = customerRepository.GetCustomerById(customer.Id);
+                if (ToUpdateProfile != null)
+                {
+                    ToUpdateProfile.FirstName = customer.FirstName;
+                    ToUpdateProfile.LastName = customer.LastName;
+                    ToUpdateProfile.Email = customer.Email;
+                    ToUpdateProfile.PhoneNumber = customer.PhoneNumber;
+
+                    customerRepository.customerSAveChanges();
+
+                }
+                return RedirectToAction("ViewProfile", "Customer", new { customerId = ToUpdateProfile.Id });
+            }
+
         }
 
-        
+
         public CustomerModel GetCustomerProfile(int customerId)
         {
             var customerProfile = customerRepository.GetCustomerById(customerId);

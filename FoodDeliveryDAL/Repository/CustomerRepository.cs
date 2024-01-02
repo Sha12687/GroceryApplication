@@ -98,5 +98,20 @@ namespace FoodDeliveryDAL.Repository
         {
            return _context.Customers.FirstOrDefault(a=>a.UserName==UserName && a.PhoneNumber==PhoneNumber); 
         }
+
+        public bool CustomerExistsEmail(string UserEmail, int id)
+        {
+            var veriefyUser = _context.Customers.FirstOrDefault(a => a.Email == UserEmail);
+
+            if (veriefyUser != null && veriefyUser.Id != id)
+            {
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
     }

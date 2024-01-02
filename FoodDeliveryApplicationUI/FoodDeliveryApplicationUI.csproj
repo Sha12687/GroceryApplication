@@ -210,6 +210,7 @@
     <Compile Include="Models\AddressViewModel.cs" />
     <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
+    <Compile Include="Models\EditUserView.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\OrderDetailsViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />

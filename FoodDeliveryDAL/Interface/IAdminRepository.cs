@@ -21,6 +21,7 @@ namespace FoodDeliveryDAL.Interface
         Admin UpdateAdmin(Admin admin);
 
         // Delete
+        bool AdminExistsEmail(string UserEmail, int id);
         Admin DeleteAdmin(int adminId);
         Admin GetAdminByUserName(string userName);
         void SaveAdminchages();

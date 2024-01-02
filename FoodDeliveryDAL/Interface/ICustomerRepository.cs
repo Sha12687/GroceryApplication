@@ -24,7 +24,7 @@ namespace FoodDeliveryDAL.Interface
 
         // Delete
         Customer DeleteCustomer(int customerId);
-       
+        bool CustomerExistsEmail(string UserEmail, int id);
     }
 
 }

@@ -100,18 +100,28 @@ namespace FoodDeliveryApplicationUI.Controllers
         [HttpPost]
         public ActionResult Registration(UserView user)
         {
-            int UserId= (int)Session["UserId"];
-            if (adminRepository.AdminExistsEmail(user.Email) || customerRepository.CustomerExistsEmail(user.Email))
+            if (user.UserType == 1)
             {
-                // Email already registered
-                ModelState.AddModelError("Email", "Email already registered with us.");
+               if (adminRepository.AdminExistsEmail(user.Email))
+                {
+                    ModelState.AddModelError("Email", "Email already registered with us.");
+                }
+                if (adminRepository.AdminExists(user.UserName))
+                {
+                    ModelState.AddModelError("UserName", "Username already registered with us.");
+                }
             }
-            else if (adminRepository.AdminExists(user.UserName) || customerRepository.CustomerExists(user.UserName))
+            else
             {
-                // Username already registered
-                ModelState.AddModelError("UserName", "Username already registered with us.");
+                if (customerRepository.CustomerExistsEmail(user.Email))
+                {
+                    ModelState.AddModelError("Email", "Email already registered with us.");
+                }
+                if (customerRepository.CustomerExists(user.UserName))
+                {
+                    ModelState.AddModelError("UserName", "Username already registered with us.");
+                }
             }
-
             if (!ModelState.IsValid)
             {
                 // Return the view with validation errors
@@ -211,7 +221,7 @@ namespace FoodDeliveryApplicationUI.Controllers
             Session.Abandon();
             FormsAuthentication.SignOut();
             ViewBag.IsLoggedOut = "true";
-            return RedirectToAction("CustomerLogin", "Account");
+            return RedirectToAction("Index", "Home");
         }
        
     }

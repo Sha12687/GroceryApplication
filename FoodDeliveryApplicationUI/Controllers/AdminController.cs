@@ -90,16 +90,38 @@ namespace FoodDeliveryApplicationUI.Controllers
         }
 
 
+
         public ActionResult EditAdmin(int customerId)
         {
-            UserView customer = GetAdminProfile(customerId);
+            Admin admin = adminRepository.GetAdminById(customerId);
+            var customer = new EditUserView
+            {
+                Id = admin.Id,
+                FirstName = admin.FirstName,
+                LastName = admin.LastName,
+                UserName = admin.UserName,
+                Email = admin.Email,
+                PhoneNumber = admin.PhoneNumber,
+            };
             return View(customer);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditAdmin(UserView User)
+        public ActionResult EditAdmin(EditUserView User)
         {
+
+            if (adminRepository.AdminExistsEmail(User.Email, User.Id))
+            {
+                // Email already registered
+                ModelState.AddModelError("Email", "Email already registered with us.");
+            }
+            if (!ModelState.IsValid)
+            {
+                // Return the same view with validation errors
+                return View("EditAdmin", User);
+            }
+
             Admin ToUpdateProfile = adminRepository.GetAdminById(User.Id);
             if (ToUpdateProfile != null)
             {
@@ -107,10 +129,9 @@ namespace FoodDeliveryApplicationUI.Controllers
                 ToUpdateProfile.LastName = User.LastName;
                 ToUpdateProfile.Email = User.Email;
                 ToUpdateProfile.PhoneNumber = User.PhoneNumber;
-                ToUpdateProfile.UserName = User.UserName;
                 adminRepository.SaveAdminchages();
-
             }
+
             return RedirectToAction("ViewProfile", "Admin", new { AdminId = ToUpdateProfile.Id });
         }
 
